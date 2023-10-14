@@ -3,7 +3,7 @@ import * as utils from "./utils.js";
 /**
  * The Expense class represents an expense made by a user.
  */
-class Expense{
+export class Expense{
 
     type;
     amount;
@@ -76,3 +76,34 @@ class Expense{
         return true;
     }
 }
+
+/**
+ * 
+ * @param {string} userId the unique ID of the user
+ * @param {Date} startDate The earliest date for which to return transactions
+ * @param {Date} endDate The latest date for which to return transations
+ * @returns 
+ */
+export function getAllExpenses(userId, startDate = null, endDate = null){
+    return null;
+}
+
+/**
+ * Return the earliest chronological expense stored by the user.
+ * @param {string} userId the unique ID of the user
+ * @returns 
+ */
+export function getEarliestExpense(userId){
+    return null;
+}
+
+/**
+ * Return a count of all expenses stored by the user.
+ * 
+ * @param {string} userId the unique ID of the user
+ * @returns an integer count of the number of expenses stored by the user.
+ */
+export function getExpensesCount(userId){
+    return null;
+}
+

@@ -1,4 +1,4 @@
-import {Expense} from "./expense.js";
+import {Expense, getAllExpenses, getExpensesCount, getEarliestExpense} from "./expense.js";
 
 /**
  *  Expense object constructor tests
@@ -43,6 +43,3 @@ test("Initializing an Expense with an invalid Date object throws an error", () =
     expect(new Expense("food",80.34,"September 29th")).toThrowError();
 });
 
-/**
- * 
- */
