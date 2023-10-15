@@ -118,20 +118,21 @@ describe("Income Class and Methods", () => {
     });
   });
     
-describe("getEarliestIncome Function - Invalid Input", () => {
-  test("Throws an error if user ID is null", () => {
-    const userId = null;
+  describe("getEarliestIncome Function - Invalid Input", () => {
+    test("Throws an error if user ID is null", () => {
+      const userId = null;
 
-    expect(() => getEarliestIncome(userId)).toThrowError(TypeError);
+      expect(() => getEarliestIncome(userId)).toThrowError(TypeError);
+        });
+
+    test("Throws an error if user ID is not a string", () => {
+      const userId = 123; 
+
+      expect(() => getEarliestIncome(userId)).toThrowError(TypeError);
+        });
+      test("Throws an error if the date is invalid",()=>{
+          const startDate = null;
+      expect(() => getEarliestIncome(startDate)).toThrowError(TypeError);
       });
-
-  test("Throws an error if user ID is not a string", () => {
-    const userId = 123; 
-
-    expect(() => getEarliestIncome(userId)).toThrowError(TypeError);
-      });
-    test("Throws an error if the date is invalid",()=>{
-        const startDate = null;
-     expect(() => getEarliestIncome(startDate)).toThrowError(TypeError);
-    });
+  });
 });
