@@ -103,14 +103,6 @@ export function getIncomeCount(userId){
     return null;
 }
 
-/**
- * 
- * @param {string} userId the unique ID of the user
- * @returns 
- */
-export function getMostRecentIncome(userId){
-    return null;
-}
 
 /** 
  * Add an income stream to the list of incomes. 
