@@ -22,7 +22,7 @@ test("Calling getAllIncome with null startDat and null endDate. Returns a collec
 test("Should add an income amount to the incomes array", () => {
     const incomes = []; 
     const incomeData = { source: 'Part-time Job', amount: 300.00, date: '2023-10-10'}; 
-    addExpense(incomeData, incomes); 
+    addIncome(incomeData, incomes); 
 
     expect(incomes).toHaveLength(1); 
     expect(incomes[0]).toEqual(incomeData); 
