@@ -15,9 +15,6 @@ export async function signIn(Username, Password) { //checks credentials and auth
     }
     return false;
 }
-export function addNewUserData (Username, Password) { //add initial user data given at account creation
-    return null;
-}
 
 
 

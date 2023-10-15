@@ -1,5 +1,6 @@
 import {authenticate, createUser, addNewUserData} from './authentication.js'
 
+//authenticate tests
 test("Authentication function returns a boolean", () => {
 
 })
@@ -12,22 +13,38 @@ test("Authentication returns false if the user is not in the database", () => {
     
 })
 
+//createUser tests
 test("createUser returns a string for userID", () => {
     
 })
 
-test("createUser added a new entry to the database with the return userID", () => {
+test("createUser added a new entry to the database with the returned userID", () => {
     
 })
 
-test("createUser returns a string for userID", () => {
+//checkCredentials test
+test("checkCredentials returns false if username is above 30 characters", () => {
     
 })
 
-test("createUser returns a string for userID", () => {
+test("checkCredentials returns true if username is valid", () => {
     
 })
 
-test("createUser returns a string for userID", () => {
+test("checkCredentials returns false if password does not have a special character", () => {
     
 })
+
+test("checkCredentials returns false if password does not have a capital letter", () => {
+    
+})
+
+//signIn tests
+test("Returns true if valid user", () => {
+    
+})
+
+test("Returns false if invalid user", () => {
+    
+})
+
