@@ -4,7 +4,8 @@ export{
     isValidAmount,
     isValidDate,
     TimeDivisions,
-    resolveTimeDivision
+    resolveTimeDivision,
+    generateUuid
 }
 
 /**
@@ -144,4 +145,12 @@ export const isValidDate = function(date){
         return false;
 
     return true;
+}
+
+/**
+ * Generate a string uuid that does not already exist in the database.
+ * @returns 
+ */
+export const generateUuid = function(){
+    return null;
 }

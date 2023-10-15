@@ -4,7 +4,8 @@ import * as utils from "./utils";
  * The Limit class represents a spending limit imposed by a user.
  * The Limit may optionally have an expiration date. A null expiration date means the limit will never expire.
  * 
- * The class has four attributes:
+ * The class has five attributes:
+ * {string} id: a uuid for the Limit object
  * {number} amount: the amount of the limit (must be >= 0)
  * {string} timeDivision: the time division associated with the limit (i.e. "weekly","monthly")
  * {Date} expirationDate (optional): the date on which the limit will expire. If null, the limit will not expire.
@@ -20,6 +21,7 @@ import * as utils from "./utils";
  */
 class Limit {
 
+    id;
     createdDate;
     amount;
     timeDivision;
@@ -36,6 +38,7 @@ class Limit {
         if (!utils.isValidAmount(amount))
             throw new TypeError("Amount was invalid.");
 
+        this.id = utils.generateUuid();
         this.amount = amount;
         this.timeDivision = utils.resolveTimeDivision(timeDivision);
         this.createdDate = Date.now();

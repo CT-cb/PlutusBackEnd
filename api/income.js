@@ -5,7 +5,7 @@ import * as utils from "./utils.js";
  * 
  * Author: Mariam Minhas
  */
-export class Income{
+export class Income {
 
     type;
     amount;

@@ -109,17 +109,16 @@ export function getAllIncome(userId, startDate = null, endDate = null){
 }
 
 /**
- * Add an expense to the list of expenses.
+ * Add an expense to the database
  *
- * @param {Object} expenseData - The expense data to be added.
- * @param {Array} expenses - The array of expenses to which the expenseData will be added.
+ * @param {Object} expense - The expense data to be added.
  */
-export function addExpense(expenseData, expenses) {
-    expenses.push(expenseData);
+export function addExpense(expense) {
+    null;
 }
 
 /**
- * Delete an expense by ID from the list of expenses.
+ * Delete an expense by ID from the database.
  *
  * @param {number} expenseId - The ID of the expense to be deleted.
  * @param {Array} expenses - The array of expenses from which the expense will be deleted.
