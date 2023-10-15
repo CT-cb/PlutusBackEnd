@@ -1,4 +1,4 @@
-import { getAllExpenses, getEarliestExpense, ge, getMostRecentExpense } from "./expense";
+import { getAllExpenses, getEarliestExpense, getMostRecentExpense, calculateDailyMax, addExpense, deleteExpense } from "./expense";
 /**
  * Function tests
  */
@@ -27,6 +27,32 @@ test("Calling getAllExpenses with a null endDate returns a collection whose most
     expect(allExpenses[allExpenses.length-1].date).toEqual(getMostRecentExpense(userId).date)
 }
 
+test('should add an expense to the expenses array', () => {
+    const expenses = [];
+    const expenseData = { source: 'Groceries', amount: 50.00, date: '2023-10-13' };
+    addExpense(expenseData, expenses);
+ 
+    expect(expenses).toHaveLength(1); // The expenses array should contain one expense
+    expect(expenses[0]).toEqual(expenseData); // The added expense should match the provided data
+ });
 
-
-
+ test('should delete an expense by ID and return true', () => {
+    const expenses = [
+      { id: 1, source: 'Groceries', amount: 50.00, date: '2023-10-13' },
+      { id: 2, source: 'Utilities', amount: 100.00, date: '2023-10-15' },
+     ];
+     const result = deleteExpense(1, expenses);
+     expect(result).toBeTruthy(); // Should return true
+     expect(expenses).toHaveLength(1); // The expenses array should contain one remaining expense
+     expect(expenses[0].id).toBe(2); // The remaining expense should have the ID 2
+ });
+ 
+ test('should return false for a non-existent ID and leave expenses unchanged', () => {
+    const expenses = [
+      { id: 1, source: 'Groceries', amount: 50.00, date: '2023-10-13' },
+      { id: 2, source: 'Utilities', amount: 100.00, date: '2023-10-15' },
+    ];
+    const result = deleteExpense(3, expenses);
+    expect(result).toBeFalsy(); // Should return false
+    expect(expenses).toHaveLength(2); // The expenses array should remain unchanged
+ });

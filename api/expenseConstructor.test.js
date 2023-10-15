@@ -29,6 +29,7 @@ test("Initializing an Expense with null date throws an error", () =>{
     expect(new Expense("food",80.34,null)).toThrowError();
 });
 
+
 // Invalid argument tests
 
 test("Initializing an Expense with an invalid type throws an error", () =>{
