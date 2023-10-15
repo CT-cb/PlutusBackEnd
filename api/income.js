@@ -41,8 +41,37 @@ export class Income{
         return type.length > 0;
     }
 
-    
+    /**
+     * 
+     * @param {*} amount an int or floating point representing a non-negative dollar amount
+     * @returns true if amount is a non-zero number, false if otherwise
+     */
+    static isValidAmount(amount){
+        if (!utils.isNumber(amount))
+            return false;
+
+        return amount >= 0;
+    }
+
+/**
+ * @param {Date} date - The Date object to validate
+ * @returns {boolean} - True if the date is a valid Date object with a valid year, month, and day, otherwise false.
+ */
+static isValidDate(date) {
+    if (date instanceof Date && !isNaN(date)) {
+        // Check if the year, month, and day are valid
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDate();
+
+        if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+            return true;
+        }
+    }
+    return false;
+    }
 }
+
 
 /**
  * 
@@ -83,3 +112,30 @@ export function getMostRecentIncome(userId){
     return null;
 }
 
+/** 
+ * Add an income stream to the list of incomes. 
+ * 
+ * @param {Object} incomeData - The income amount to be added. 
+ * @param {Array} incomes - array of incomes which the incomeData will be held. 
+ */
+
+export function addIncome(incomeData, incomes) {
+    incomes.push(incomeData);
+}
+
+/**
+ * Delete an income by ID from the array of incomes. 
+ * 
+ * @param {number} incomeId - the ID of the income to be deleted. 
+ * @param {Array} incomes - array holding all of the incomes. 
+ * @return {boolean} Returns true if the expense was deleted, false if the ID was not found.  
+ */
+export function deleteIncome(incomeId, incomes) {
+    const indexToDelete = income.findIndex(incomes => incomes.id === incomeId); 
+    if(indexToDelete !== -1) {
+        const deletedIncome = incomes.splice(indexToDelete, 1) [0]; 
+        return true; 
+    } else {
+        return false; 
+    }
+}
