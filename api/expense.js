@@ -119,12 +119,28 @@ export function getAllIncome(userId, startDate = null, endDate = null){
 }
 
 /**
- * 
- * @param {string} userId the unique ID of the user
- * @param {Date} startDate The earliest date for which to return income deposits
- * @param {Date} endDate The latest date for which to return income deposits
- * @returns null
+ * Add an expense to the list of expenses.
+ *
+ * @param {Object} expenseData - The expense data to be added.
+ * @param {Array} expenses - The array of expenses to which the expenseData will be added.
  */
-export function getAllIncome(userId, startDate = null, endDate = null){
-    return null;
+export function addExpense(expenseData, expenses) {
+    expenses.push(expenseData);
+}
+
+/**
+ * Delete an expense by ID from the list of expenses.
+ *
+ * @param {number} expenseId - The ID of the expense to be deleted.
+ * @param {Array} expenses - The array of expenses from which the expense will be deleted.
+ * @returns {boolean} Returns true if the expense was deleted, false if the ID was not found.
+ */
+export function deleteExpense(expenseId, expenses) {
+    const indexToDelete = expenses.findIndex(expense => expense.id === expenseId);
+    if (indexToDelete !== -1) {
+      const deletedExpense = expenses.splice(indexToDelete, 1)[0];
+      return true;
+    } else {
+      return false;
+    }
 }
