@@ -32,19 +32,27 @@ test("createUser returns -1 if the user creation failed", () => {
 
 //checkCredentials test
 test("checkCredentials returns false if username is above 30 characters", () => {
-    
+    let Username = "ThisIsAReallyLongUsernameToTestIfThereAreTooManyCharacters"
+    let Password = "T4stP@ssword"
+    expect(checkCredentials(Username, Password)).toBeFalsy();
 })
 
 test("checkCredentials returns true if username is valid", () => {
-    
+    let Username = "testUser"
+    let Password = "T4stP@ssword"
+    expect(checkCredentials(Username, Password)).toBeTruthy();
 })
 
 test("checkCredentials returns false if password does not have a special character", () => {
-    
+    let Username = "testUser"
+    let Password = "T4stPassword"
+    expect(checkCredentials(Username, Password)).toBeFalsy();
 })
 
 test("checkCredentials returns false if password does not have a capital letter", () => {
-    
+    let Username = "testUser"
+    let Password = "t4stp@ssword"
+    expect(checkCredentials(Username, Password)).toBeFalsy();
 })
 
 //signIn tests
