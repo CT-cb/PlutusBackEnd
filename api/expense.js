@@ -123,15 +123,8 @@ export function addExpense(expense) {
  * Delete an expense by ID from the database.
  *
  * @param {number} expenseId - The ID of the expense to be deleted.
- * @param {Array} expenses - The array of expenses from which the expense will be deleted.
  * @returns {boolean} Returns true if the expense was deleted, false if the ID was not found.
  */
-export function deleteExpense(expenseId, expenses) {
-    const indexToDelete = expenses.findIndex(expense => expense.id === expenseId);
-    if (indexToDelete !== -1) {
-      const deletedExpense = expenses.splice(indexToDelete, 1)[0];
-      return true;
-    } else {
-      return false;
-    }
+export function deleteExpense(expenseId) {
+   return false;
 }
