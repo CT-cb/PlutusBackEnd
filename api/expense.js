@@ -23,6 +23,7 @@ import * as utils from "./utils.js";
  */
 export class Expense{
 
+    id;
     type;
     amount;
     date;
@@ -38,6 +39,7 @@ export class Expense{
         if (!utils.isValidDate(date))
             throw Error("Date is invalid. Must be a Date() object with at least a viable day, month, and year.");
 
+        this.id = utils.generateUuid();
         this.type = type;
         this.amount = amount;
         this.date = date;
