@@ -55,6 +55,18 @@ test("checkCredentials returns false if password does not have a capital letter"
     expect(checkCredentials(Username, Password)).toBeFalsy();
 })
 
+test("checkCredentials returns false if username has a space", () => {
+    let Username = "test User"
+    let Password = "T4stP@ssword"
+    expect(checkCredentials(Username, Password)).toBeFalsy();
+})
+
+test("checkCredentials returns false if password has a space", () => {
+    let Username = "testUser"
+    let Password = "T4st P@ssword"
+    expect(checkCredentials(Username, Password)).toBeFalsy();
+})
+
 //signIn tests
 test("Returns true if valid user", () => {
     let Username = "testUser"
