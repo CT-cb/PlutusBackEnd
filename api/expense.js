@@ -113,9 +113,11 @@ export function getAllIncome(userId, startDate = null, endDate = null){
  *
  * @param {Object} expenseData - The expense data to be added.
  * @param {Array} expenses - The array of expenses to which the expenseData will be added.
+ * @returns {Array} Return updated expenses list 
  */
 export function addExpense(expenseData, expenses) {
     expenses.push(expenseData);
+    return expenses
 }
 
 /**
