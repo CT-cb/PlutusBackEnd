@@ -98,6 +98,15 @@ export function getEarliestExpense(userId){
 }
 
 /**
+ * Return the most recent chronological expense stored by the user.
+ * @param {string} userId the unique ID of the user
+ * @returns 
+ */
+export function getMostRecentExpense(userId){
+    return null;
+}
+
+/**
  * Return a count of all expenses stored by the user.
  * 
  * @param {string} userId the unique ID of the user
