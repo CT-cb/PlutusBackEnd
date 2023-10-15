@@ -27,6 +27,7 @@ test("Calling getAllExpenses with a null endDate returns a collection whose most
     expect(allExpenses[allExpenses.length-1].date).toEqual(getMostRecentExpense(userId).date)
 }
 
+// testing addExpense function 
 // Mocking the database functions for testing
 let database = [];
 const mockDatabaseAdd = (expenseData) => {
@@ -34,13 +35,31 @@ const mockDatabaseAdd = (expenseData) => {
 };
 const expenseData = { type: 'food', amount: 50.00, date: new Date() };
 test('adds a valid expense to the database', () => {
-    // Create an instance of the Expense class
-    const expense = new Expense('food', 50.00, new Date());
+    const expense = new Expense('food', 50.00, new Date());     //instance of expense 
     expense.addExpense = mockDatabaseAdd;
     expense.addExpense(expenseData);
     // Check if the expense was added to the database
     expect(database).toHaveLength(1);
     expect(database[0]).toEqual(expect.objectContaining(expenseData));
+  });
+
+//testing deleteExpense function 
+const mockDatabaseDelete = (expenseId) => {
+    database = database.filter((expense) => expense.id !== expenseId);
+};
+
+test('deletes an expense from the database', () => {
+    const expense = new Expense('food', 50.00, new Date());     //instance of expense 
+
+    expense.addExpense = mockDatabaseAdd;
+    expense.deleteExpense = mockDatabaseDelete;
+    const expenseData = { type: 'entertainment', amount: 30.00, date: new Date() };
+    expense.addExpense(expenseData);
+    const addedExpenseId = database[0].id;
+    expense.deleteExpense(addedExpenseId);
+
+    // Check if the expense was deleted from the database
+    expect(database).toHaveLength(0);
   });
 
 
