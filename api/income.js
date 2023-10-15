@@ -2,26 +2,31 @@ import * as utils from "./utils.js";
 
 /**
  * The Income class represents income deposited by a user.
+ * 
+ * Author: Mariam Minhas
  */
 export class Income{
 
     type;
     amount;
     date;
+    createdDate;
 
     constructor(type,amount,date){
         if (!isValidType(type))
             throw TypeError("Type is not valid. Must be a non-empty string.");
 
-        if (!isValidAmount(amount))
+        if (!utils.isValidAmount(amount))
             throw TypeError("Amount is not valid. Must be a non-negative number.");
 
-        if (!isValidDate(date))
+        if (!utils.isValidDate(date))
             throw Error("Date is invalid. Must be a Date() object with at least a viable day, month, and year.");
 
         this.type = type;
         this.amount = amount;
         this.date = date;
+
+        this.createdDate = Date.now();
     }
 
     /**
@@ -36,36 +41,8 @@ export class Income{
         return type.length > 0;
     }
 
-    /**
-     * 
-     * @param {*} amount an int or floating point representing a non-negative dollar amount
-     * @returns true if amount is a non-zero number, false if otherwise
-     */
-    static isValidAmount(amount){
-        if (!utils.isNumber(amount))
-            return false;
-
-        return amount >= 0;
-    }
-
-/**
- * @param {Date} date - The Date object to validate
- * @returns {boolean} - True if the date is a valid Date object with a valid year, month, and day, otherwise false.
- */
-static isValidDate(date) {
-    if (date instanceof Date && !isNaN(date)) {
-        // Check if the year, month, and day are valid
-        const year = date.getFullYear();
-        const month = date.getMonth();
-        const day = date.getDate();
-
-        if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
-            return true;
-        }
-    }
-    return false;
+    
 }
-
 
 /**
  * 
@@ -94,6 +71,15 @@ export function getEarliestIncome(userId){
  * @returns an integer count of the number of Incomes input by the user.
  */
 export function getIncomeCount(userId){
+    return null;
+}
+
+/**
+ * 
+ * @param {string} userId the unique ID of the user
+ * @returns 
+ */
+export function getMostRecentIncome(userId){
     return null;
 }
 

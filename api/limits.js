@@ -1,3 +1,48 @@
+import * as utils from "./utils";
+
+/**
+ * The Limit class represents a spending limit imposed by a user.
+ * The Limit may optionally have an expiration date. A null expiration date means the limit will never expire.
+ * 
+ * The class has four attributes:
+ * {number} amount: the amount of the expense (must be >= 0)
+ * {string} timeDivision: the time division associated with the limit (i.e. "weekly","monthly")
+ * {Date} expirationDate (optional): the date on which the limit will expire. If null, the limit will not expire.
+ * {Date} createdDate: the date that the Expense was entered into the app
+ * 
+ * The constructor takes two arguments and one optional argument:
+ *  ~amount
+ *  ~timeDivision
+ *  ~expirationDate (optional)
+ * The createdDate attribute is also initialized by the constructor.
+ * 
+ * Author: Collin Tyler
+ */
+class Limit {
+
+    createdDate;
+    amount;
+    timeDivision;
+    expirationDate;
+
+    constructor(amount,timeDivision,expirationDate = null){
+        
+        if (expirationDate){
+            if (!utils.isValidDate(expirationDate))
+                throw new Error("Date was invalid.");
+            this.expirationDate = expirationDate;
+        }
+
+        if (!utils.isValidAmount(amount))
+            throw new TypeError("Amount was invalid.");
+
+        this.amount = amount;
+        this.timeDivision = utils.resolveTimeDivision(timeDivision);
+        this.createdDate = Date.now();
+    }
+}
+
+
 /**
  * Get the monthly limit for a user
  * 

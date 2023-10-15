@@ -1,27 +1,45 @@
 import * as utils from "./utils.js";
 
 /**
- * The Expense class represents an expense made by a user.
+ * Expense()
+ * The Expense class represents an expense made by a user. 
+ * 
+ * The class has four attributes
+ * {string} type: the type of expense (i.e. "food", "entertainment")
+ * {number} amount: the amount of the expense (must be >= 0)
+ * {Date} date: the date that the expense occurred
+ * {Date} createdDate: the date that the Expense was entered into the app
+ * 
+ * The constructor takes three arguments:
+ *  ~type
+ *  ~amount
+ *  ~date
+ * The createdDate attribute is also initialized by the constructor.
+ * 
+ * Author: Collin Tyler
  */
 export class Expense{
 
     type;
     amount;
     date;
+    createdDate;
 
     constructor(type,amount,date){
         if (!isValidType(type))
             throw TypeError("Type is not valid. Must be a non-empty string.");
 
-        if (!isValidAmount(amount))
+        if (!utils.isValidAmount(amount))
             throw TypeError("Amount is not valid. Must be a non-negative number.");
 
-        if (!isValidDate(date))
+        if (!utils.isValidDate(date))
             throw Error("Date is invalid. Must be a Date() object with at least a viable day, month, and year.");
 
         this.type = type;
         this.amount = amount;
         this.date = date;
+
+        this.createdDate = Date.now();
     }
 
     /**
@@ -34,46 +52,6 @@ export class Expense{
             return false;
         
         return type.length > 0;
-    }
-
-    /**
-     * 
-     * @param {*} amount an int or floating point representing a non-negative dollar amount
-     * @returns true if amount is a non-zero number, false if otherwise
-     */
-    static isValidAmount(amount){
-        if (!utils.isNumber(amount))
-            return false;
-
-        return amount >= 0;
-    }
-
-    /**
-     * 
-     * @param {*} date a Date() object
-     * @returns true if date is a Date() object and has a valid date, 
-     * false if date is null, not a Date() object, or has an invalid year, month, or date
-     */
-    static isValidDate(date){
-        if (!utils.isDate(date))
-            return false;
-
-        date = new Date();
-
-        let year = date.getFullYear();
-        if (isNaN(year))
-            return false;
-        // TODO: add more year checks
-
-        let month = date.getMonth();
-        if (isNaN(month))
-            return false;
-
-        let day = date.getDate();
-        if (isNaN(day))
-            return false;
-
-        return true;
     }
 }
 
