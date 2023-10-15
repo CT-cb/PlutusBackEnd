@@ -4,7 +4,9 @@ import * as utils from "./utils.js";
  * Expense()
  * The Expense class represents an expense made by a user. 
  * 
- * The class has four attributes
+ * Author: Collin Tyler
+ * 
+ * The class has four attributes:
  * {string} type: the type of expense (i.e. "food", "entertainment")
  * {number} amount: the amount of the expense (must be >= 0)
  * {Date} date: the date that the expense occurred
@@ -16,7 +18,8 @@ import * as utils from "./utils.js";
  *  ~date
  * The createdDate attribute is also initialized by the constructor.
  * 
- * Author: Collin Tyler
+ * Throws:
+ * TypeError,  if any of the constructor arguments are invalid
  */
 export class Expense{
 

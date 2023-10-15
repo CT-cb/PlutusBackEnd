@@ -5,10 +5,10 @@ import * as utils from "./utils";
  * The Limit may optionally have an expiration date. A null expiration date means the limit will never expire.
  * 
  * The class has four attributes:
- * {number} amount: the amount of the expense (must be >= 0)
+ * {number} amount: the amount of the limit (must be >= 0)
  * {string} timeDivision: the time division associated with the limit (i.e. "weekly","monthly")
  * {Date} expirationDate (optional): the date on which the limit will expire. If null, the limit will not expire.
- * {Date} createdDate: the date that the Expense was entered into the app
+ * {Date} createdDate: the date that the limit was entered into the app
  * 
  * The constructor takes two arguments and one optional argument:
  *  ~amount
