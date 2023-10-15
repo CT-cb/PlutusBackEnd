@@ -1,4 +1,4 @@
-import {Expense, getAllExpenses, getExpensesCount, getEarliestExpense, getAllIncome} from "./expense.js";
+import {Expense, getAllExpenses, getExpensesCount, getEarliestExpense} from "./expense.js";
 
 /**
  *  Expense object constructor tests
