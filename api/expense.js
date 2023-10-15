@@ -107,3 +107,13 @@ export function getExpensesCount(userId){
     return null;
 }
 
+/**
+ * 
+ * @param {string} userId the unique ID of the user
+ * @param {Date} startDate The earliest date for which to return income deposits
+ * @param {Date} endDate The latest date for which to return income deposits
+ * @returns null
+ */
+export function getAllIncome(userId, startDate = null, endDate = null){
+    return null;
+}
