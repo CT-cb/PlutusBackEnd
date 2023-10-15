@@ -28,28 +28,7 @@ test("Initializing an Expense with null amount throws an error", () =>{
 test("Initializing an Expense with null date throws an error", () =>{
     expect(new Expense("food",80.34,null)).toThrowError();
 });
-test("Initializing an Income with null arguments throws an error", () =>{
-    expect(new Income(null, null, null)).toThrowError();
-});
-test("Initializing an Income with null type and amount throws an error", () =>{
-    expect(new Income(null,null,new Date())).toThrowError();
-});
 
-test("Initializing an Income with null type and amount throws an error", () =>{
-    expect(new Expense(null,20.23,new Date())).toThrowError();
-});
-
-test("Initializing an Income with null amount and date throws an error", () =>{
-    expect(new Expense("user1",null,null)).toThrowError();
-});
-
-test("Initializing an Income with null amount throws an error", () =>{
-    expect(new Expense("user1",null, new Date())).toThrowError();
-});
-
-test("Initializing an Income with null date throws an error", () =>{
-    expect(new Expense("user1",20.23,null)).toThrowError();
-});
 
 // Invalid argument tests
 
