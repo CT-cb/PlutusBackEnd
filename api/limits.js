@@ -45,7 +45,21 @@ class Limit {
     }
 }
 
+export function addLimit(limit){
+    return null;
+}
 
+export function deleteLimit(limitId){
+    return null;
+}
+/**
+ * Get a collection of all spending limits saved by the user.
+ * @param {string} userId 
+ * @returns 
+ */
+export function getAllLimits(userId){
+    return null;
+}
 /**
  * Get the monthly limit for a user
  * 
