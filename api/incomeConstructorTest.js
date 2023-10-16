@@ -1,3 +1,6 @@
+/*
+* Author: Mariam Minhas
+*/
 import { Income } from "./income.js";
 
 describe("Income Class and Methods", () => {
@@ -83,7 +86,7 @@ describe("Income Class and Methods", () => {
       test("get all income with all valid arguments",()=>{
           const userID = "user1";
           const startDate = new Date();
-          const endDate = new Date(); //should insert date for these two?
+          const endDate = new Date(); 
 
           const result = getAllIncome(userId,startDate,endDate);
 
