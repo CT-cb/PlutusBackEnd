@@ -1,0 +1,17 @@
+{
+    "userId":"a566cb90-9141-47b4-87c4-203262590ef7",
+    "firstName":"Collin",
+    "lastName":"Tyler",
+    "email":"ctyler5@gmu.edu",
+    "password":"examplepass123",
+    "createdDateTime":"2023-10-27T00:00:00",
+    "activeSessions":[
+        {
+            "ip":null,
+            "os":null,
+            "firstLogin":null,
+            "lastLogin":null,
+            "country":null
+        }
+    ]
+}
