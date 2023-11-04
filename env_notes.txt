@@ -1,0 +1,72 @@
+The .env file is a convention in Node.js applications to allow
+secure storage and retrieval of sensitive, static data values.
+This includes things like private API keys, specific URIs,
+login credentials, and more.
+
+The convention is to store this data in a text file called ".env".
+The .env file can then be accessed in a JavaScript file by using
+the dotenv Node package.
+
+Because of its sensitive nature, the .env file should not be stored in
+a central repository. If it contained a secret API key, then any repo contributor
+would be able to pull the secret key to their local repo. This is bad
+for security.
+
+What's the solution? the .env.vault format. The .env.vault file
+is a secure version of .env that encrypts the data values. You as the developer
+will receive a copy of .env.vault when pulling from the main repo, and you'll be
+able to use the dotenv package to access the keys in .env.vault inside your code.
+
+Here's an example from a MongoDB script, where the uri to connect to the MongoDB
+database is stored in the .env.vault file and access via the dotenv package:
+
+const dotenv = require('dotenv');
+
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = process.env.MONGODB_CONNECTION_URI;
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);
+
+============================
+
+Our .env.vault file currently has the following variables:
+
+# Express API Vars
+PLUTUS_API_PORT // the port from which our Express server accepts requests
+
+# MONGODB Connection Vars
+MONGODB_CONNECTION_AUTHPW // password for authenticating a connection to the MongoDB database
+MONGODB_CONNECTION_URI // uri for connecting to the MongoDB database
+
+# MongoDB Data API vars
+MONGODB_DATA_API_KEY // secret key to connect to the Data API in MongoDB
+MONGODB_API_ENDPOINT // endpoint (url) for the Data API in MongoDB
+
+# Plaid Vars
+PLAID_ENV // the type of plaid environment to be used
+PLAID_SANDBOX_KEY // the secret key to use to connect to the Plaid Sandbox environment
+PLAID_DEVELOPMENT_KEY // the secret key to use to connect to the Plaid Development environment
+PLAID_CLIENT_ID // our unique Client ID in Plaid's system
+PLAID_REDIRECT_URI // placeholder variable if we want to implement a redirect during Plaid authorization...not sure how we'll use this yet
+PLAID_SANDBOX_SAMPLE_USERNAME // a generic username to use for Plaid Sandbox testing
+PLAID_SANDBOX_SAMPLE_PASSWORD // a generic password to use for Plaid Sandbox testing
+PLAID_PRODUCTS // the products to which we are subscribed in Plaid.

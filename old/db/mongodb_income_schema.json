@@ -1,5 +1,6 @@
 {
     "incomeId":"abcdef12-3456-78g9-01h2-345678901ij2",
+    "userId":"a566cb90-9141-47b4-87c4-203262590ef7",
     "dateCreated":"2023-10-23T00:00:00",
     "amount":10.0,
     "type":"direct_deposit",
