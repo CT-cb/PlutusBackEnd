@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     activeSessions: {
-        type: sessionSchema, // TODO: this is not the right way to express this!
+        type: sessionSchema, // TODO: I don't know if this will work
         required: true
     }
 });

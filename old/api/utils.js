@@ -149,6 +149,8 @@ export const isValidDate = function(date){
 
 /**
  * Generate a string uuid that does not already exist in the database.
+ * 
+ * Author: Collin Tyler
  * @returns 
  */
 export const generateUuid = function(){
