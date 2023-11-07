@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('./user-model'); 
-const { authenticateUser } = require('./middleware/auth'); //if needed
+const User = require('../models/user-model'); 
 
 // Log in a user
 router.post('/login', async (req, res) => {
@@ -111,6 +110,24 @@ router.put('/reset-password/:resetToken', async (req, res) => {
   // Implement password reset logic using the provided reset token
   res.status(200).json({ message: 'Password reset successful' });
 });
+
+
+//add middleware here 
+const authenticateUser = (req, res, next) => {
+    User.findById(req.session.userId).exec(function (error, user) {
+        if (error) {
+            return next(error);
+        } else {      
+            if (user === null) {     
+                var err = new Error('Not authorized');
+                err.status = 401;
+                return next(err);
+            } else {
+                return next();
+            }
+        }
+    });
+};
 
 module.exports = router;
 
