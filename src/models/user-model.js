@@ -27,3 +27,5 @@ const userSchema = new mongoose.Schema({
         required: true
     }
 });
+
+let UserModel = mongoose.model('User',userSchema);
