@@ -34,8 +34,8 @@ router.get('/profile', authenticateUser, async (req, res) => {
   res.status(200).json(req.user); // Assuming that the authenticated user's data is available in req.user
 });
 
-// Update user profile (protected route, requires authentication)
-router.put('/profile', authenticateUser, async (req, res) => {
+// Update user profile (protected route, requires authentication!!)
+router.put('/profile', async (req, res) => {
   try {
     const { firstName, lastName, email } = req.body;
     // Get the authenticated user
@@ -55,8 +55,8 @@ router.put('/profile', authenticateUser, async (req, res) => {
   }
 });
 
-// Change user password (protected route, requires authentication)
-router.put('/change-password', authenticateUser, async (req, res) => {
+// Change user password (protected route, requires authentication!!)
+router.put('/change-password', async (req, res) => {
     try {
         const { currentPassword, newPassword } = req.body;
     
@@ -82,19 +82,19 @@ router.put('/change-password', authenticateUser, async (req, res) => {
   }
 });
 
-// List active sessions for a user (protected route, requires authentication)
-router.get('/active-sessions', authenticateUser, async (req, res) => {
+// List active sessions for a user (protected route, requires authentication!!)
+router.get('/active-sessions', async (req, res) => {
     res.status(200).json(req.user.activeSessions);
 });
 
-// Log out a user (protected route, requires authentication)
-router.post('/logout', authenticateUser, async (req, res) => {
+// Log out a user (protected route, requires authentication!!)
+router.post('/logout', async (req, res) => {
   // Implement user logout logic, which may include invalidating the JWT token
   res.status(200).json({ message: 'User logged out successfully' });
 });
 
-// Delete user account (protected route, requires authentication)
-router.delete('/delete-account', authenticateUser, async (req, res) => {
+// Delete user account (protected route, requires authentication!!)
+router.delete('/delete-account', async (req, res) => {
   // Implement user account deletion logic, which may include removing the user's data from the database
   res.status(200).json({ message: 'User account deleted successfully' });
 });
@@ -110,24 +110,6 @@ router.put('/reset-password/:resetToken', async (req, res) => {
   // Implement password reset logic using the provided reset token
   res.status(200).json({ message: 'Password reset successful' });
 });
-
-
-//add middleware here 
-const authenticateUser = (req, res, next) => {
-    User.findById(req.session.userId).exec(function (error, user) {
-        if (error) {
-            return next(error);
-        } else {      
-            if (user === null) {     
-                var err = new Error('Not authorized');
-                err.status = 401;
-                return next(err);
-            } else {
-                return next();
-            }
-        }
-    });
-};
 
 module.exports = router;
 
