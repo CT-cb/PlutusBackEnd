@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user-model'); 
+const bcrypt = require('bcrypt');
 
 // Log in a user
-router.post('/login', async (req, res) => {
+router.post('/auth', async (req, res) => {
   try {
     const { email, password } = req.body;
     // Validate input
@@ -15,7 +16,7 @@ router.post('/login', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    // Verify the password (you may use a library like bcrypt for this) ????????
+    // Verify the password (you may use a library like bcrypt for this)
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
         return res.status(401).json({ error: 'Incorrect password' });
