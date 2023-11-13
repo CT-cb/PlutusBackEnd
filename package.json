@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test:unit": "jest --testPathPattern=src/tests"
   },
   "keywords": [],
   "author": "",

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const sessionSchema = require('session-schema.js').sessionSchema;
+const sessionSchema = require('./session-schema.js').sessionSchema;
 
 const userSchema = new mongoose.Schema({
     userId: {
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     activeSessions: {
-        type: sessionSchema, // TODO: this is not the right way to express this!
+        type: String, // TODO: this is not the right way to express this!
         required: true
     }
 });
