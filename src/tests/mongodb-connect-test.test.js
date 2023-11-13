@@ -1,4 +1,4 @@
-const jest = require('jest');
+require('jest').config();
 const mongodbConnectTest = require('./mongodb-connect-test');
 
 
@@ -6,6 +6,6 @@ const mongodbConnectTest = require('./mongodb-connect-test');
 describe('mongodbConnectTest',() =>{
 
     it('should not throw an error',()=>{
-        expect().toReturn()
+        expect().toReturn();
     })
 })
