@@ -14,11 +14,13 @@ let router = require('express').Router();
  */
 
 router.use("/test",require("./test-route"));
-router.use("/expenses",require("./expense-route"));
-router.use("/income",require("income-route"));
-router.use("/accounts",require("accounts-route"));
-router.use("/users"),require("users-route");
+router.use("/expenses",require("./expense-route.js"));
+router.use("/income",require("./income-route.js"));
+router.use("/accounts",require("./accounts-route.js"));
+router.use("/users",require("./users-route.js"));
 
 router.get('/', function(req,res,next){
 
 });
+
+module.exports = router;

@@ -34,3 +34,4 @@ router.get("/1", (req,res) => {
     res.json("You entered /1.\n");
 });
 
+module.exports = router;
