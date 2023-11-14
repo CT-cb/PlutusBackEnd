@@ -1,7 +1,12 @@
+/**
+ * The Session Schema represents a user's login session.
+ * This is used in the User Schema to represent an active session by the user.
+ */
+
 const mongoose = require('mongoose');
 
 // thought about using these to represent objects in the activeSessions array for Users
-const sessionSchema = new mongoose.Schema({
+let sessionSchema = new mongoose.Schema({
     ip: {
         type: String,
         required: true
@@ -17,4 +22,6 @@ const sessionSchema = new mongoose.Schema({
     lastLogin: {
         type: Date
     }
-})
+});
+
+module.exports = sessionSchema;

@@ -4,6 +4,10 @@ require('dotenv').config();
 const URI = process.env.MONGODB_CONNECTION_URI;
 //const AUTH_PW = process.env.MONGODB_CONNECTION_AUTH_PW;
 
+/**
+ * 
+ * @returns the mongoose.connection object
+ */
 async function connectToMongo(){
     mongoose.connect(URI);
     let connected = false;
@@ -20,7 +24,7 @@ async function connectToMongo(){
         console.log(err);
     });
 
-    return connected;
+    return mongoose.connection;
 }
 
 async function disconnectFromMongo(){
@@ -31,9 +35,3 @@ async function disconnectFromMongo(){
         console.log("Disconnected from the mongo server.");
     })
 }
-
-async function main(){
-    await connectToMongo();
-}
-
-main();
