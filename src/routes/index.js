@@ -25,8 +25,6 @@ router.use("/auth",authRoute);
 //router.use("/accounts",require("./accounts-route.js"));
 //router.use("/users",require("./users-route.js"));*/
 
-/*router.get('/', function(req,res,next){
-    res.json("What?");
-});*/
+
 
 module.exports = router;

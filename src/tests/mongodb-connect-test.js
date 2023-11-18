@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 
+/*
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = process.env.MONGODB_CONNECTION_URI;
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -23,3 +24,5 @@ async function run() {
   }
 }
 run().catch(console.dir);
+*/
+

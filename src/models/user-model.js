@@ -12,9 +12,20 @@ const UserSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        required: true,
+        lowercase: true,
+        unique: true
+    },
+    password: {
+        type: String,
         required: true
+    },
+    createdAt: {
+        type: Date,
+        default: () => Date.now(),
+        immutable: true
     }
-}, {timestamps: true});
+}/*, {timestamps: true}*/);
 
 UserSchema.methods.toAuthJSON = function(){
     return {
@@ -26,8 +37,23 @@ UserSchema.methods.toAuthJSON = function(){
     };
 };
 
-const UserModel = mongoose.model('User',UserSchema);
+UserSchema.statics.findUser = async function(
+    email, 
+    password, 
+    firstName = null, 
+    lastName = null
+    ){
+        let results = await this.where("email").equals(email);
+        if (results.length == 0)
+            throw new PlutusError("user_not_found",)
 
+        if (results.length == 1)
+            return results[0];
+
+        throw new Error(`Found more than one such user!\nHere's the result:\n${results}`);
+}
+
+const UserModel = mongoose.model('users',UserSchema);
 //
 // THe below code is a form of inheritance for mongoose models. Think of the UserModel as
 // the parent class, and NewUserAccount and ExistingUserAccount as the 
@@ -36,17 +62,17 @@ const UserModel = mongoose.model('User',UserSchema);
 /**
  * NewUserAccount is used only for ingestion of a new account into MongoDB
  */
-const NewUserAccount = UserModel.discriminator('NewUserAccount', new mongoose.Schema({
+/* const NewUserAccount = UserModel.discriminator('NewUserAccount', new mongoose.Schema({
     password:{
         type: String,
         required: true
     }
-}));
+})); */
 
 /**
  * UserAccount is used only for the extraction of an existing account from MongoDB
  */
-const ExistingUserAccount = UserModel.discriminator('UserAccount', new mongoose.Schema({
+/* const ExistingUserAccount = UserModel.discriminator('UserAccount', new mongoose.Schema({
     userId:{
         type: String,
         required: true
@@ -55,4 +81,6 @@ const ExistingUserAccount = UserModel.discriminator('UserAccount', new mongoose.
         type: [sessionSchema], // An array of sessionSchema objects
         required: false
     }
-}));
+})); */
+
+module.exports = UserModel;

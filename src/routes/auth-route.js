@@ -1,39 +1,99 @@
 require('dotenv').config();
+//const { PlutusError } = require('../errors/plutus-errors');
+const PlutusErrors = require('../errors/plutus-errors');
+require('../models/user-model');
 const express = require('express');
 const mongoose = require('mongoose');
 const connection = mongoose.connection;
-
+const AuthHelpers = require("../helpers/auth-helpers");
 // Collin: I have no idea if this is how we can specific the collection/db we use
 const usersCollection = connection.collection('users');
-const db = connection.db("users-db");
+usersCollection.dbName = "users-db";
+
+const endpoint = "auth";
 
 const router = express.Router();
+const UserModel = require('../models/user-model');
 
-const UserModel = mongoose.model('User');
-const NewUserAccount = mongoose.model('NewUserAccount');
+router.use(express.json());
+router.use((req, res, next) => {
+    connection.useDb("usersdb");
+    next();
+});
 
+//const NewUserAccount = mongoose.model('NewUserAccount');
 
 console.log("Well, we're here...");
 // /auth/create endpoint for creating a new account
-router.post("/create",async (req,res) => {
+router.post("/create", async (req, res, next) => {
+    try {
 
-    // Below is some temporary BS to make sure this function works
-    let email = req.body["email"];
-    let pw = req.body["password"];
-    let firstName = req.body["firstName"] ? req.body["firstName"] : "New";
-    let lastName = req.body["lastName"] ? req.body["lastName"] : "User";
-    
-    // TODO: The below code is not working
-    await NewUserAccount.create({
-        email: email, 
-        password: pw,
-        firstName: firstName,
-        lastName: lastName
-    })
-    .then(result => {
-        console.log(result); //TODO: add something here
-    });
+        if (!AuthHelpers.hasLoginKeys(req.body)) {
+            throw new PlutusErrors.PlutusBadJsonRequestError(endpoint);
+        }
 
+        let email = req.body.email;
+        let password = req.body.password;
+        let firstName = req.body.firstName || "Generic";
+        let lastName = req.body.lastName || "User";
+
+        let newUser = new UserModel({
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName
+        });
+
+        await newUser.save();
+
+        res.status(200);
+        res.json({
+            status: "create_account_success"
+        });
+
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.post("/login", async (req, res, next) => {
+    try {
+        // does req.body contains email and password keys?
+        console.log(req.body);
+        //console.log(req.params);
+        if (!AuthHelpers.hasLoginKeys(req.body)) {
+            throw new PlutusErrors.PlutusBadJsonRequestError(endpoint);
+        }
+
+        // TODO: decrypt password? Implement later w/ encryption
+        //
+
+        let email = req.body.email;
+        let password = req.body.password;
+
+        // gonna do this an unsophisticated way to start out
+
+        let user_doc = await UserModel.where("email").equals(email);
+        if (user_doc == null || user_doc == undefined || user_doc[0] == undefined || user_doc[0] == null) {
+            throw new PlutusErrors.PlutusUserNotFoundDbError(endpoint);
+        }
+
+        if (user_doc[0].password != password) {
+            throw new PlutusErrors.PlutusPasswordMismatchDbError(endpoint);
+        }
+
+
+
+        res.status(200);
+        res.json({
+            status: "auth_success"
+        });
+
+        // Update last login time
+        // TODO: his will be an instance method built into the UserModel itself
+    } catch (err) {
+        next(err);
+    }
 });
 
 module.exports = router;
