@@ -3,6 +3,8 @@ const router = express.Router();
 const User = require('../models/user-model'); 
 const bcrypt = require('bcrypt');
 
+/* IN auth-route.js ?? */
+/* 
 // Log in a user
 router.post('/auth', async (req, res) => {
   try {
@@ -29,6 +31,7 @@ router.post('/auth', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+*/
 
 // Get user profile (protected route, requires authentication)
 router.get('/profile', authenticateUser, async (req, res) => {
