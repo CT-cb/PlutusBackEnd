@@ -56,11 +56,71 @@ router.post("/create", async (req, res, next) => {
     }
 });
 
+router.delete("/delete", async (req, res, next) => {
+    try {
+        if (!AuthHelpers.hasLoginKeys(req.body)) {
+            throw new PlutusErrors.PlutusBadJsonRequestError(endpoint);
+        }
+
+        let email = req.body.email;
+        let password = req.body.password;
+
+        let user_doc = await UserModel.where("email").equals(email);
+        if (user_doc == null || user_doc == undefined || user_doc[0] == undefined || user_doc[0] == null) {
+            throw new PlutusErrors.PlutusUserNotFoundDbError(endpoint);
+        }
+
+        if (user_doc[0].password != password) {
+            throw new PlutusErrors.PlutusPasswordMismatchDbError(endpoint);
+        }
+
+        UserModel.deleteOne({ _id: user_doc._id });
+
+        res.status(200);
+        res.json({
+            "status": "delete_account_success"
+        });
+
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.put("/update", async (req, res, next) => {
+    try {
+        if(!AuthHelpers.hasLoginKeys(req.body)){
+            throw new PlutusErrors.PlutusBadJsonRequestError(endpoint);
+        }
+
+        let email = req.body.email;
+        let password = req.body.password;
+
+        // gonna do this an unsophisticated way to start out
+
+        let user_doc = await UserModel.where("email").equals(email);
+        if (user_doc == null || user_doc == undefined || user_doc[0] == undefined || user_doc[0] == null) {
+            throw new PlutusErrors.PlutusUserNotFoundDbError(endpoint);
+        }
+
+        if (user_doc[0].password != password) {
+            throw new PlutusErrors.PlutusPasswordMismatchDbError(endpoint);
+        }
+
+        user_doc[0].updateFields(req.body);
+
+        user_doc[0].save();
+
+        res.status(200);
+        res.json({
+            "status":"update_account_success"
+        });
+    } catch (err) {
+        next(err);
+    }
+});
 router.post("/login", async (req, res, next) => {
     try {
         // does req.body contains email and password keys?
-        console.log(req.body);
-        //console.log(req.params);
         if (!AuthHelpers.hasLoginKeys(req.body)) {
             throw new PlutusErrors.PlutusBadJsonRequestError(endpoint);
         }

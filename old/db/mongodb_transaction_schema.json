@@ -6,7 +6,6 @@
     "method":"credit_card",
     "currency":"usd",
     "expenseDate":"2023-09-10T00:00:00",
-    "sourceType":"paycheck",
     "payee":{
         "name":"Lorem Ipsum",
         "description":"",
