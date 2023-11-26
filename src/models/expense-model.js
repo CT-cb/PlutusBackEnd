@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const uuid = require('uuid'); // use v4
+const PayeeSchema = require("./payee-schema");
 const ExpenseSchema = new mongoose.Schema({
     expenseId: {
         type: String,
@@ -11,28 +12,32 @@ const ExpenseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    amount:{
+    amount: {
         type: Number,
         // TODO: add validation to ensure it's >= 0
         required: true
     },
-    method:{
-        type:String,
-        required:true
+    method: {
+        type: String,
+        required: true
     },
-    currency:{
-        type:String,
-        required:true,
+    currency: {
+        type: String,
+        required: true,
         default: "usd"
     },
-    expenseDate:{
-        type:Date,
-        required:true,
-        default:Date.now()
+    expenseDate: {
+        type: Date,
+        required: true,
+        default: Date.now()
     },
-    payee:{
-        type:payeeSchema,
+    payee: {
+        type: PayeeSchema,
         required: false
+    },
+    type:{
+        type:String,
+        required:false
     },
     createdAt: {
         type: Date,
@@ -42,28 +47,20 @@ const ExpenseSchema = new mongoose.Schema({
     }
 });
 
-ExpenseSchema.statics.CreateExpense = function(
-    userEmail,
-    amount,
-    expenseDate,
-    method,
-    currency,
-    payee,
-    seriesId = null
-){
-    const newSchema = new ExpenseSchema();
+ExpenseSchema.static.ReplaceUuid = function (oldExpense) {
+    let newSchema = new ExpenseSchema(
+        user = oldExpense.user,
+        amount = oldExpense.amount,
+        method = oldExpense.method,
+        currency = oldExpense.currency,
+        expenseDate = oldExpense.expenseDate,
+        payee = oldExpense.payee,
+        type = oldExpense.type
+    )
 
-    newSchema.expenseId = uuid.v4();
-    while (this.find({expenseId: newSchema.expenseId})){
-        newSchema.expenseId = uuid.v4();
-    }
-    newSchema.user = userEmail;
-    newSchema.amount = amount;
-    newSchema.method = method;
-    newSchema.xpenseDate = expenseDate;
-    newSchema.currency = currency;
-};
+    return newSchema;
+}
 
-const ExpenseModel = mongoose.model('expenses',ExpenseSchema);
+const ExpenseModel = mongoose.model('expenses', ExpenseSchema);
 
 module.exports = ExpenseModel;

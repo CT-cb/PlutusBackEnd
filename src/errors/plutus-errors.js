@@ -40,8 +40,31 @@ class PlutusPasswordMismatchDbError extends PlutusError {
     }
 }
 
+class PlutusMissingRequestParamsError extends PlutusError {
+    constructor(endpoint){
+        super(
+            "missing_request_params",
+            "The HTTP request has missing parameters.",
+            endpoint
+        );
+        this.name = "PlutusMissingRequestParamsError";
+    }
+}
+
+class PlutusPriceBoundError extends PlutusError {
+    constructor(endpoint){
+        super(
+            "invalid_price_bounds",
+            "The price bounds for this request are invalid. Make sure that the lower bound is less than or equal to the upper bound.",
+            endpoint
+        );
+        this.name = "PlutusPriceBoundError";
+    }
+}
 module.exports = { 
     PlutusUserNotFoundDbError,
     PlutusPasswordMismatchDbError,
-    PlutusBadJsonRequestError
+    PlutusBadJsonRequestError,
+    PlutusMissingRequestParamsError,
+    PlutusPriceBoundError
 };

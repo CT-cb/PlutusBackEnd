@@ -1,21 +1,21 @@
-require('dotenv').config();
+//require('dotenv').config();
 //const { PlutusError } = require('../errors/plutus-errors');
 const PlutusErrors = require('../errors/plutus-errors');
-require('../models/user-model');
+//equire('../models/user-model');
 const express = require('express');
 const mongoose = require('mongoose');
 const connection = mongoose.connection;
 const AuthHelpers = require("../helpers/auth-helpers");
 // Collin: I have no idea if this is how we can specific the collection/db we use
-const usersCollection = connection.collection('users');
-usersCollection.dbName = "users-db";
+/*const usersCollection = connection.collection('users');
+usersCollection.dbName = "users-db";*/
 
-const endpoint = "auth";
+let endpoint = "auth";
 
 const router = express.Router();
 const UserModel = require('../models/user-model');
 
-router.use(express.json());
+//router.use(express.json());
 router.use((req, res, next) => {
     connection.useDb("usersdb");
     next();
@@ -108,7 +108,7 @@ router.put("/update", async (req, res, next) => {
 
         user_doc[0].updateFields(req.body);
 
-        user_doc[0].save();
+        user_doc[0].save(); 
 
         res.status(200);
         res.json({

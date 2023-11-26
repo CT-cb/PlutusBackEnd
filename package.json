@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:unit": "jest --testPathPattern=./src/tests --detectOpenHandles"
+    "test:unit_all": "jest --testPathPattern=./src --detectOpenHandles",
+    "test:unit_helpers": "jest --testPathPattern=./src/helpers/test -- detectOpenHandles"
   },
   "keywords": [],
   "author": "",

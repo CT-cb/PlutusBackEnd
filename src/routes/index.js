@@ -20,7 +20,7 @@ router.use("/test",require("./test-route")); // random route for testing things
 
 // Uncomment each line once its route is ready to be tested
 router.use("/auth",authRoute);
-//router.use("/expenses",require("./expense-route.js"));
+router.use("/expenses",require("./expense-route.js"));
 //router.use("/income",require("./income-route.js"));
 //router.use("/accounts",require("./accounts-route.js"));
 //router.use("/users",require("./users-route.js"));*/
