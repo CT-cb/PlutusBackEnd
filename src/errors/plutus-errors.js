@@ -8,7 +8,7 @@ class PlutusError extends Error {
     }
 }
 
-class PlutusBadJsonRequestError extends PlutusError{
+class PlutusBadJsonBodyError extends PlutusError{
     constructor(endpoint){
         super(
             "request_body_missing_keys",
@@ -64,7 +64,7 @@ class PlutusPriceBoundError extends PlutusError {
 module.exports = { 
     PlutusUserNotFoundDbError,
     PlutusPasswordMismatchDbError,
-    PlutusBadJsonRequestError,
+    PlutusBadJsonRequestError: PlutusBadJsonBodyError,
     PlutusMissingRequestParamsError,
     PlutusPriceBoundError
 };
