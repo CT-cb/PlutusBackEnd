@@ -3,35 +3,12 @@ const router = express.Router();
 const User = require('../models/user-model'); 
 const bcrypt = require('bcrypt');
 
-/* IN auth-route.js ?? */
-/* 
-// Log in a user
-router.post('/auth', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    // Validate input
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
-    }
-    // Find the user by email
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-    // Verify the password (you may use a library like bcrypt for this)
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-        return res.status(401).json({ error: 'Incorrect password' });
-      }
-      // Here, you would typically generate and return a JWT for the user
-      // to authenticate subsequent requests.For now, we'll just return a success message.
-      res.status(200).json({ message: 'User logged in successfully' }); 
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+console.log("In user route")  //
+
+//remove this. Only to test route working
+router.get('/testing', function (req, res){
+  res.json("User route test worked.");
 });
-*/
 
 // Get user profile (protected route, requires authentication)
 router.get('/profile', async (req, res) => {
