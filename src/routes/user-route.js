@@ -3,18 +3,19 @@ const router = express.Router();
 const User = require('../models/user-model'); 
 const bcrypt = require('bcrypt');
 
-console.log("In user route")  //
+//console.log("In user route")  //
 
 //remove this. Only to test route working
-router.get('/testing', function (req, res){
-  res.json("User route test worked.");
-});
+//router.get('/testing', function (req, res){
+//  res.json("User route test worked.");
+//});
 
 // Get user profile (protected route, requires authentication)
 router.get('/profile', async (req, res) => {
   res.status(200).json(req.user); // Assuming that the authenticated user's data is available in req.user
 });
 
+/*
 // Update user profile (protected route, requires authentication!!)
 router.put('/profile', async (req, res) => {
   try {
@@ -35,6 +36,7 @@ router.put('/profile', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+*/
 
 // Change user password (protected route, requires authentication!!)
 router.put('/change-password', async (req, res) => {
@@ -74,11 +76,13 @@ router.post('/logout', async (req, res) => {
   res.status(200).json({ message: 'User logged out successfully' });
 });
 
+/*
 // Delete user account (protected route, requires authentication!!)
 router.delete('/delete-account', async (req, res) => {
   // Implement user account deletion logic, which may include removing the user's data from the database
   res.status(200).json({ message: 'User account deleted successfully' });
 });
+*/
 
 // Forgot password (initiate password reset)
 router.post('/forgot-password', async (req, res) => {
