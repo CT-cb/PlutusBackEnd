@@ -28,3 +28,6 @@ const userSchema = new mongoose.Schema({
   //  }
     activeSessions: [sessionSchema],
 });
+
+
+module.exports = mongoose.model('User', userSchema);    //added

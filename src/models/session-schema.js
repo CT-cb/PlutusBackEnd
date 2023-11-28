@@ -18,3 +18,8 @@ const sessionSchema = new mongoose.Schema({
         type: Date
     }
 })
+
+//following added
+module.exports = {
+    sessionSchema: sessionSchema,
+  };

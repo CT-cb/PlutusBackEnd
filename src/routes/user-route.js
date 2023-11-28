@@ -34,7 +34,7 @@ router.post('/auth', async (req, res) => {
 */
 
 // Get user profile (protected route, requires authentication)
-router.get('/profile', authenticateUser, async (req, res) => {
+router.get('/profile', async (req, res) => {
   res.status(200).json(req.user); // Assuming that the authenticated user's data is available in req.user
 });
 
