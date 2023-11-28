@@ -19,18 +19,18 @@ router.delete("/delete", async (req,res,next)=>{
             throw new PlutusErrors.PlutusMissingRequestParamsError(endpoint);
         }
 
-        let user = req.query.user;
+        let email = req.query.email;
         let incomeIds = req.query.incomeIds.split(",");
 
         incomeIds.forEach(async (incomeId)=>{
             let result = await IncomeModel.deleteMany({
-                user: user,
+                email: email,
                 incomeId: incomeId
             });
             console.log(result);
         })
         
-        /*let results = await IncomeModel.where("user").equals(user).where("incomeId").equals(incomeId);
+        /*let results = await IncomeModel.where("email").equals(email).where("incomeId").equals(incomeId);
         if (results.length > 0){
             results.forEach((result)=>{
                 result.deleteOne();
@@ -53,7 +53,7 @@ router.post("/add", async (req, res, next) => {
             throw new PlutusErrors.PlutusBadJsonRequestError(endpoint);
         }
 
-        let user = req.body.user;
+        let email = req.body.email;
         let amount = req.body.amount;
         let incomeDate = req.body.incomeDate;
         let type = req.body.type;
@@ -61,7 +61,7 @@ router.post("/add", async (req, res, next) => {
         let currency = req.body.currency;
 
         let income = new IncomeModel({
-            user: user,
+            email: email,
             amount: amount,
             currency: currency,
             type: type,
@@ -96,14 +96,14 @@ router.get("/all", async (req, res, next) => {
         console.log(req.params);
         if (!GlobalHelpers.hasParams(
             req.query,
-            ["user"]
+            ["email"]
         )) {
             throw new PlutusErrors.PlutusMissingRequestParamsError(endpoint);
         }
 
-        let user = req.query.user;
+        let email = req.query.email;
 
-        let results = await IncomeModel.where("user").equals(user);
+        let results = await IncomeModel.where("email").equals(email);
         if (results == undefined || results == null) {
             throw new Error("placeholder error");
         }
@@ -126,23 +126,23 @@ router.get("/bydaterange", async (req, res, next) => {
 
         if (!GlobalHelpers.hasParams(
             req.query,
-            ["user",
+            ["email",
                 "startDate",
                 "endDate"]
         )) {
             throw new PlutusErrors.PlutusMissingRequestParamsError(endpoint);
         }
 
-        let user = req.query.user;
+        let email = req.query.email;
         let startDate = new Date(req.query.startDate);
         let endDate = new Date(req.query.endDate);
-        console.log(user);
+        console.log(email);
         console.log(startDate);
         console.log(endDate);
         console.log("==== here");
         // construct query
         let results = await IncomeModel
-            .where("user").equals(user)
+            .where("email").equals(email)
             .where("incomeDate").gte(startDate.toISOString()).lte(endDate.toISOString());
 
 
@@ -164,13 +164,13 @@ router.get("/bytype", async (req, res, next) => {
     try {
         if (!GlobalHelpers.hasParams(
             req.query,
-            ["user",
+            ["email",
                 "types"]
         )) {
             throw new PlutusErrors.PlutusMissingRequestParamsError(endpoint);
         }
 
-        let user = req.query.user;
+        let email = req.query.email;
         let types = req.query.types.split(",");
         if (types.length > 10) {
             console.log("Can only have 10 types max");
@@ -187,7 +187,7 @@ router.get("/bytype", async (req, res, next) => {
         for (let i = 0; i < types.length; i++) {
             let type = types[i];
             let query_results = await IncomeModel
-                .where("user").equals(user)
+                .where("email").equals(email)
                 .where("type").equals(type);
 
             query_results.forEach((result) => {
@@ -212,7 +212,7 @@ router.get("/bytype_daterange", async (req, res, next) => {
 
         if (!GlobalHelpers.hasParams(
             req.query,
-            ["user",
+            ["email",
                 "types",
                 "startDate",
                 "endDate"]
@@ -220,7 +220,7 @@ router.get("/bytype_daterange", async (req, res, next) => {
             throw new PlutusErrors.PlutusMissingRequestParamsError(endpoint);
         }
 
-        let user = req.query.user;
+        let email = req.query.email;
         let startDate = new Date(req.query.startDate);
         let endDate = new Date(req.query.endDate);
         let types = req.query.types.split(",");
@@ -243,7 +243,7 @@ router.get("/bytype_daterange", async (req, res, next) => {
         for (let i = 0; i < types.length; i++) {
             let type = types[i];
             let query_results = await IncomeModel
-                .where("user").equals(user)
+                .where("email").equals(email)
                 .where("incomeDate").gte(startDate.toISOString()).lte(endDate.toISOString())
                 .where("type").equals(type)
                 ;
@@ -266,19 +266,19 @@ router.get("/byamount", async (req, res, next) => {
         GlobalHelpers.fixAmountBounds(req.query);
         if (!GlobalHelpers.hasParams(
             req.query,
-            ["user",
+            ["email",
                 "amountLowerBound",
                 "amountUpperBound"]
         )) {
             throw new PlutusErrors.PlutusMissingRequestParamsError(endpoint);
         }
 
-        let user = req.query.user;
+        let email = req.query.email;
         let lowerBound = req.query.amountLowerBound;
         let upperBound = req.query.amountUpperBound;
 
         let results = await IncomeModel
-            .where("user").equals(user)
+            .where("email").equals(email)
             .where("amount").gte(lowerBound).lte(upperBound);
 
         res.status(200);
@@ -297,7 +297,7 @@ router.get("/byamount_daterange", async (req, res, next) => {
 
         if (!GlobalHelpers.hasParams(
             req.query,
-            ["user",
+            ["email",
                 "amountLowerBound",
                 "amountUpperBound",
                 "startDate",
@@ -306,13 +306,13 @@ router.get("/byamount_daterange", async (req, res, next) => {
             throw new PlutusErrors.PlutusMissingRequestParamsError(endpoint);
         }
 
-        let user = req.query.user;
+        let email = req.query.email;
         let lowerBound = req.query.amountLowerBound;
         let upperBound = req.query.amountUpperBound;
         let startDate = new Date(req.query.startDate);
         let endDate = new Date(req.query.endDate);
         let results = await IncomeModel
-            .where("user").equals(user)
+            .where("email").equals(email)
             .where("incomeDate").gte(startDate.toISOString()).lte(endDate.toISOString())
             .where("amount").gte(lowerBound).lte(upperBound);
 

@@ -11,7 +11,7 @@ const hasCorrectAttributes = function (obj) {
     }
 
     let attribs = [
-        "user",
+        "email",
         "type",
         "amount",
         "currency",

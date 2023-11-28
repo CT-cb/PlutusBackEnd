@@ -6,7 +6,7 @@ const GlobalHelpers = require('../global-helpers');
 
 describe('tests for hasParams(list) function', () => {
     let exampleParams = [
-        "userId",
+        "email",
         "type",
         "startDate",
         "endDate"
@@ -15,14 +15,14 @@ describe('tests for hasParams(list) function', () => {
     let nullParams = null;
 
     let correctObject = {
-        userId: "planwithplutus@gmail.com",
+        email: "planwithplutus@gmail.com",
         type: "shopping",
         startDate: Date.now(),
         endDate: Date.now()
     }
 
     let incorrectObject = {
-        userId: "planwithplutus@gmail.com",
+        email: "planwithplutus@gmail.com",
         type: "shopping",
         startDate: Date.now()
     }
@@ -45,7 +45,7 @@ describe('tests for hasParams(list) function', () => {
     });
 
     test('passing a string into params returns false',()=>{
-        let a = GlobalHelpers.hasParams(correctObject,"userId");
+        let a = GlobalHelpers.hasParams(correctObject,"email");
         expect(a).toBe(false);
     });
 

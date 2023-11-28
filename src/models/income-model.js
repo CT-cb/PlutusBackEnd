@@ -8,7 +8,7 @@ const IncomeSchema = new mongoose.Schema({
         immutable: true,
         required: true
     },
-    user: {
+    email: {
         type: String,
         required: true
     },
@@ -48,7 +48,7 @@ const IncomeSchema = new mongoose.Schema({
 
 IncomeSchema.static.ReplaceUuid = function (oldIncome) {
     let newSchema = new IncomeSchema(
-        user = oldIncome.user,
+        email = oldIncome.email,
         amount = oldIncome.amount,
         currency = oldIncome.currency,
         incomeDate = oldIncome.incomeDate,

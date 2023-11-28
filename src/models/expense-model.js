@@ -8,7 +8,7 @@ const ExpenseSchema = new mongoose.Schema({
         immutable: true,
         required: true
     },
-    user: {
+    email: {
         type: String,
         required: true
     },
@@ -49,7 +49,7 @@ const ExpenseSchema = new mongoose.Schema({
 
 ExpenseSchema.static.ReplaceUuid = function (oldExpense) {
     let newSchema = new ExpenseSchema(
-        user = oldExpense.user,
+        email = oldExpense.email,
         amount = oldExpense.amount,
         method = oldExpense.method,
         currency = oldExpense.currency,

@@ -6,7 +6,7 @@ const ExpenseHelpers = require('../expense-helpers');
 
 describe('tests for hasCorrectAttributes',()=>{
     let correctObj = {
-        "user":"planwithplutus@gmail.com",
+        "email":"planwithplutus@gmail.com",
         "method":"credit_card",
         "amount":19.99,
         "expenseDate":Date.now(),
@@ -18,7 +18,7 @@ describe('tests for hasCorrectAttributes',()=>{
     }
 
     let incorrectObj1 = {
-        "user":"planwithplutus@gmail.com",
+        "email":"planwithplutus@gmail.com",
         "method":"debit_card",
         "expenseDate":Date.now(),
         "payee":{
