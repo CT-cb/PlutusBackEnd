@@ -1,6 +1,6 @@
 require('dotenv').config();
 const PORT = process.env.PLUTUS_TEST_PORT;
-
+const cors = require('cors');
 const express = require('express');
 const app = express();
 
