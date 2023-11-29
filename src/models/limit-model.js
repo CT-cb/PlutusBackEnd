@@ -9,7 +9,7 @@ const LimitSchema = new mongoose.Schema({
         immutable: true,
         unique: true
     },
-    user: {
+    email: {
         type: String,
         required: true,
         immutable: true // think about it: why would a limit ever need to switch to another user?
@@ -52,8 +52,20 @@ const LimitSchema = new mongoose.Schema({
     }
 });
 
+LimitSchema.static.ReplaceUuid = function (oldLimit) {
+    let newSchema = new LimitSchema(
+        email = oldLimit.email,
+        startDate = oldLimit.startDate,
+        endDate = oldLimit.endDate,
+        timeDivision = oldLimit.timeDivision,
+        maxLimit = oldLimit.maxLimit,
+        currency = oldLimit.currency,
+        createdAt = oldLimit.createdAt,
+        limitId = oldLimit.limitId
+    )
+
+    return newSchema;
+}
 const LimitModel = mongoose.model('limits', LimitSchema);
 
-module.exports = {
-    LimitModel
-};
+module.exports = LimitModel;
