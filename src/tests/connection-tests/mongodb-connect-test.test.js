@@ -1,7 +1,7 @@
 const { mongo } = require('mongoose');
 const mongoose = require('mongoose');
 require('jest');
-const mongodbConnectTest = require('../connections/mongodb-connect-collin').connectToMongo;
+const mongodbConnectTest = require('../../connections/mongodb-connect-collin').connectToMongo;
 let testConnection;
 
 beforeAll(async () => {

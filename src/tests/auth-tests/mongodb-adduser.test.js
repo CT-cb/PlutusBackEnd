@@ -4,8 +4,8 @@ jest.setTimeout(10000);
 const mongoose = require('mongoose');
 mongoose.set()
 
-const connectToMongoDb = require("../connections/mongodb-connect-collin").connectToMongo;
-const UserModel = require('../models/user-model');
+const connectToMongoDb = require("../../connections/mongodb-connect-collin").connectToMongo;
+const UserModel = require('../../models/user-model');
 const DBNAME = "usersdb";
 
 let badEmail = "plutustestname";
