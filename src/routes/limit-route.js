@@ -21,12 +21,23 @@ router.post("/add",async (req,res,next)=>{
         }
         let limitId = req.body.limitId;
         let email = req.body.email;
-        let startDate = req.body.startDate;
-        let endDate = req.body.endDate;
+        let startDate = Date.now();
+        if (req.body.startDate){
+            startDate = new Date(req.body.startDate);
+        }
+
+        let endDate = new Date("3000-01-01");
+        if (req.body.endDate){
+            endDate = new Date(req.body.startDate);
+        }
+
         let timeDivision = req.body.timeDivision;
         let maxLimit = req.body.maxLimit;
-        let currency = req.body.currency;
-        let createdAt = req.body.createdAt;
+        
+        let currency = "usd";
+        if (req.body.currency){
+            currency = req.body.currency;
+        }
 
         let limit = new LimitModel({
             email: email,
@@ -35,8 +46,6 @@ router.post("/add",async (req,res,next)=>{
             timeDivision: timeDivision,
             maxLimit: maxLimit,
             currency: currency,
-            createdAt: createdAt,
-            limitId: limitId,
         });
 
         if (req.body.startDate) {
@@ -60,8 +69,7 @@ router.post("/add",async (req,res,next)=>{
 router.get("/all", async (req, res, next) => {
     endpoint += "/all";
     try {
-        console.log(req.query);
-        console.log(req.params);
+
         if (!GlobalHelpers.hasParams(
             req.query,
             ["email"]
@@ -76,8 +84,6 @@ router.get("/all", async (req, res, next) => {
             throw new Error("placeholder error");
         }
 
-        console.log(results);
-        console.log(results[0]);
         res.status(200);
         res.json(results);
     } catch (err) {
