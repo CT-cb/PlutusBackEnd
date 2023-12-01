@@ -1,6 +1,6 @@
 
 
-// function to check if an incoming new expense has the right attributes
+// function to check if an incoming new limit has the right attributes
 const hasCorrectAttributes = function (obj) {
     if (obj == null) {
         return false;
@@ -30,8 +30,10 @@ function cleanBody(obj){
     if (obj == null)
         return;
 
-    if (obj.startDate == undefined || obj.startDate == null){
-
+    if (obj.startDate == undefined){
+        obj.startDate = new Date().toIsoString();
+    } else {
+        //TODO here
     }
 }
 

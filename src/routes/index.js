@@ -23,8 +23,6 @@ router.use("/auth",authRoute);
 router.use("/expenses",require("./expense-route.js"));
 router.use("/incomes",require("./income-route.js"));
 router.use("/limits",require("./limit-route.js"));
-//router.use("/accounts",require("./accounts-route.js"));
-//router.use("/users",require("./users-route.js"));*/
 
 
 
