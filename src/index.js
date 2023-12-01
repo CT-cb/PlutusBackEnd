@@ -8,5 +8,3 @@ app.listen(PORT, () => console.log(`Server started on port ${PORT} !!!`));
 app.get('/',function(req,res) {
     res.json("The API test worked.");
 })
-
-app.use('/incomes', require('./routes/income-route.js'))    
