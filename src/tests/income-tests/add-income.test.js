@@ -44,7 +44,7 @@ describe('/add tests', () => {
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json');
 
-        expect(res.statusCode).toBe(500);
+        expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty('status', 'error');
         expect(res.body).toHaveProperty('errorType');
         expect(res.body).toHaveProperty('message');
