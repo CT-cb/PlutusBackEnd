@@ -31,30 +31,30 @@ describe('/add tests', () => {
     });
 
     let incorrectObj = {
-        "email": "planwithplutus@gmail.com",
-        "currency": "usd",
-        "incomeDate": Date.now()
+        "email":"planwithplutus@gmail.com",
+        "amount":1000,
+        "currency":"usd",
+        "incomeDate":Date.now(),
+        "type":"direct_deposit"
     }
 
-    //Test that the incorrect object does not get added to the database
-    test('incorrect obj is not added', async () => {
+    //Test that the correct object gets added to the database
+    test('correct obj is added', async () => {
         let res = await req
             .post('/incomes/add')
-            .send(JSON.stringify(incorrectObj))
+            .send(JSON.stringify(correctObj))
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json');
 
-        expect(res.statusCode).toBe(400);
-        expect(res.body).toHaveProperty('status', 'error');
-        expect(res.body).toHaveProperty('errorType');
-        expect(res.body).toHaveProperty('message');
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toHaveProperty('status', 'income_add_success');
     });
 
 });
 
 
 // disconnecting from the database
-afterAll(async () => {
+afterAll(() => {
     mongoose.disconnect();
 });
 
