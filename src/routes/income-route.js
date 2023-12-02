@@ -102,12 +102,16 @@ router.get("/all", async (req, res, next) => {
         }
 
         let email = req.query.email;
-
         let results = await IncomeModel.where("email").equals(email);
+
+        if (results.length === 0) {
+            res.status(400).json({ error: 'No incomes found for the provided email' });
+            return;
+        }
+
         if (results == undefined || results == null) {
             throw new Error("placeholder error");
         }
-
         console.log(results);
         console.log(results[0]);
         res.status(200);
