@@ -112,7 +112,6 @@ router.delete("/delete", async (req,res,next)=>{
         //     email: email,
         //     limitId: limitId
         // });
-        console.log(result);
         res.status(200);
         res.json({
             "status":"limit_delete_success"
