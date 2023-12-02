@@ -46,7 +46,5 @@ function cleanBody(obj){
 
 
 module.exports = { 
-    hasCorrectAttributes,
-    cleanLimitStartDate,
-    cleanLimitEndDate
+    hasCorrectAttributes
 }
