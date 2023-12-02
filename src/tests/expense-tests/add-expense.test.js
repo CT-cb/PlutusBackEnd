@@ -82,8 +82,11 @@ describe('/add tests', () => {
         //expect(res.body).toHaveProperty('errorType');
         expect(res.body).toHaveProperty('message');
     });
+
+    afterAll(() => {
+        
+        mongoose.disconnect();
+        //mongoose.disconnect();
+    });
 });
 
-afterAll(() => {
-    //mongoose.disconnect();
-});
