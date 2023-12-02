@@ -8,57 +8,40 @@ const connectToMongoDb = require("../../connections/mongodb-connect-collin").con
 const IncomeModel = require('../../models/income-model');
 
 let connection = connectToMongoDb();
+
 const req = request(app);
 beforeAll(() => {
     mongoose.connection.useDb("incomes");
-    console.log("current db: ", mongoose.connection.db);    //
 });
-/*
-async function findDocumentsWithValidEmail() {
-    try {
-      const result = await IncomeModel.find({ email: 'planwithplutus@gmail.com' });
-      console.log(result);
-    } catch (error) {
-      console.error('Error finding documents:', error);
-    } 
-}
-findDocumentsWithValidEmail();
-*/
 
-
-describe("return all incomes data", () => {
-
-    let validEmail = 'planwithplutus@gmail.com';
-    let invalidEmail = 'invalid@example.com';
-
-
-    test('should return all incomes for a valid email', async () => {
-        const res = await req
-            .get('/incomes/all?email=planwithplutus@gmail.com')
-            .set('Accept', 'application/json');
-    
-        expect(res.statusCode).toBe(200);
-        // Assuming the response is an array and you want to check the first element
-        expect(res.body[0]).toHaveProperty('status', 'success');
-        expect(res.body[0]).toHaveProperty('incomes');
-        expect(Array.isArray(res.body[0].incomes)).toBe(true);
-
+describe('returns all incomes data for a specific email from database', () => {
+  //  it('should get all incomes for a specific email from the database', async () => {
+    const testEmail = 'test@example.com'
+    const invalidEmail = 'invalidEmail'
+    test('should return all incomes for valid email', async() => {
+        
+        // Send a request to the API endpoint
+        const response = await request(app)
+        .get('/incomes/all')
+        .query({ email: testEmail })
+        .set('Accept', 'application/json');
+        
+        // Assertions
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toHaveLength(2); // Assuming there are 2 test incomes
+        expect(response.body[0].email).toBe(testEmail);
     });
-
-      //  expect(res.body).toHaveProperty('status', 'success');
-      //  expect(res.body).toHaveProperty('incomes');
-      //  expect(Array.isArray(res.body[0].incomes)).toBe(true);
-    });    
-    /*
-    test('should handle errors for an invalid email', async () => {
-        let res = await req
-            .get(`/incomes/all?email=${invalidEmail}`)
+  
+    test('should handle invalid email', async () => {
+        // Send a request to the API endpoint with an invalid email
+        const response = await request(app)
+            .get(`/incomes/all`)
+            .query({ email: invalidEmail })
             .set('Accept', 'application/json');
 
-        expect(res.statusCode).toBe(500);
-        expect(res.body).toHaveProperty('status', 'error');
-        expect(res.body).toHaveProperty('errorType');
-        expect(res.body).toHaveProperty('message');
+        // Assertions
+        expect(response.statusCode).toBe(200); 
+        expect(response.body).toHaveLength(0);
     });
 
     test('should handle errors for null email', async () => {
@@ -71,7 +54,8 @@ describe("return all incomes data", () => {
         expect(res.body).toHaveProperty('message');
     });
 });
-*/
+  
+
 afterAll(() => {
     mongoose.connection.close();
 });
