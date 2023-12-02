@@ -16,24 +16,31 @@ let mongo_connection = connectToMongo();
  * Ideally we'd want more valdiations for CORS and stuff like that
  */
 app.use(cors());
-app.use(express.urlencoded({extended: true}));
+
+app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 // Mount the router vvv
 app.use('/',require('./routes'));
 
 // Listen on the port
-app.listen(PORT, () => console.log(`Server started on port ${PORT} !!!`));
+//let server = app.listen(PORT, () => console.log(`Server started on port ${PORT} !!!`));
 app.get('/',function(req,res) {
     res.json("The API test worked.");
 });
 
 app.use(function(error, req,res,next){
     // error handler
-    res.status(error.status || 500);
+    
+    res.status(error.status || 400);
     res.json({
         "status":"error",
-        "error_type":error.errorType,
+        "errorType":error.errorType,
         "message":error.message
     });
 })
+
+// export for the test scripts to grab the app
+module.exports = {
+    app
+}

@@ -6,7 +6,8 @@ const IncomeSchema = new mongoose.Schema({
         type: String,
         default: uuid.v4(),
         immutable: true,
-        required: true
+        required: true,
+        unique: true,
     },
     email: {
         type: String,
