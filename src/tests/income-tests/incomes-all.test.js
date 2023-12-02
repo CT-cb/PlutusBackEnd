@@ -21,10 +21,9 @@ describe('returns all incomes data for a specific email from database', () => {
     test('should return all incomes for valid email', async() => {
         
         // Send a request to the API endpoint
-        const response = await request(app)
-        .get('/incomes/all')
-        .query({ email: testEmail })
-        .set('Accept', 'application/json');
+        const response = await req
+            .get(`/incomes/all?email=${testEmail}`)
+            .set('Accept', 'application/json');
         
         // Assertions
         expect(response.statusCode).toBe(200);
@@ -34,14 +33,12 @@ describe('returns all incomes data for a specific email from database', () => {
   
     test('should handle invalid email', async () => {
         // Send a request to the API endpoint with an invalid email
-        const response = await request(app)
-            .get(`/incomes/all`)
-            .query({ email: invalidEmail })
+        const response = await req
+            .get(`/incomes/all?email=${invalidEmail}`)
             .set('Accept', 'application/json');
 
         // Assertions
-        expect(response.statusCode).toBe(200); 
-        expect(response.body).toHaveLength(0);
+        expect(response.statusCode).toBe(400); 
     });
 
     test('should handle errors for null email', async () => {
