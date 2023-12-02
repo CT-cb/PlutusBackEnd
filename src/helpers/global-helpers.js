@@ -6,7 +6,9 @@ const express = require('express');
 
 const PlutusErrors = require("../errors/plutus-errors");
 
-const MAX_DATE = "3000-01-01";
+const MAX_YEAR = 3000;
+const MIN_YEAR = 1776;
+const MAX_DATE = "3000-07-04";
 const MIN_DATE = "1776-07-04";
 
 const hasParams = function(obj,params){
@@ -32,31 +34,52 @@ const hasParams = function(obj,params){
     return true;
 };
 
+function fixDateDefaultToPresent(obj){
+    if (obj.startDate == undefined || obj.startDate == null){
+        obj.startDate = new Date().toISOString();
+        return;
+    }
+
+    let d = new Date(obj.startDate);
+    if (isNaN(d)){
+        obj.startDate = new Date().toISOString();
+        return;
+    }
+
+    if (d.getFullYear() < MIN_YEAR){
+        obj.startDate = MIN_DATE;
+    }
+
+    if (d.getFullYear() > MAX_YEAR){
+        obj.startDate = MAX_DATE;
+    }
+
+    return;
+}
+
 /**
  * 
  * @param {Object} obj 
  */
-function fixStartDate(obj){
+function fixStartDateDefaultMinDate(obj){
     if (obj.startDate == undefined || obj.startDate == null){
-        obj.startDate = new Date(MIN_DATE);
+        obj.startDate = MIN_DATE;
         return;
     }
 
-    if (Object.getPrototypeOf(obj.startDate) == Date.prototype){
-        if (obj.startDate < MIN_DATE){
-            obj.startDate = new Date(MIN_DATE);
-            return;
-        }
+    let d = new Date(obj.startDate);
 
-        if (obj.startDate > MAX_DATE){
-            obj.startDate = new Date(MAX_DATE);
-        }
-
+    if (isNaN(d)){
+        obj.startDate = MIN_DATE;
         return;
     }
 
-    if (isNaN(new Date(obj.startDate))){
-        throw new Error("startDate must be an actual date");
+    if (d.getFullYear() < MIN_YEAR){
+        obj.startDate = MIN_DATE;
+    }
+
+    if (d.getFullYear() > MAX_YEAR){
+        obj.startDate = MAX_DATE;
     }
     
     return;
@@ -67,27 +90,26 @@ function fixStartDate(obj){
  * @param {Object} obj 
  * @returns 
  */
-function fixEndDate(obj){
+function fixEndDateDefaultMaxDate(obj){
+
     if (obj.endDate == undefined || obj.endDate == null){
-        obj.endDate = new Date(MAX_DATE);
+        obj.endDate = MAX_DATE;
         return;
     }
 
-    if (Object.getPrototypeOf(obj.endDate) == Date.prototype){
-        if (obj.endDate < MIN_DATE){
-            obj.endDate = new Date(MIN_DATE);
-            return;
-        }
+    let d = new Date(obj.endDate);
 
-        if (obj.endDate > MAX_DATE){
-            obj.endDate = new Date(MAX_DATE);
-        }
-
+    if (isNaN(d)){
+        obj.endDate = MAX_DATE;
         return;
     }
 
-    if (isNaN(new Date(obj.endDate))){
-        throw new Error("endDate must be an actual date");
+    if (d.getFullYear() < MIN_YEAR){
+        obj.endDate = MIN_DATE;
+    }
+
+    if (d.getFullYear() > MAX_YEAR){
+        obj.endDate = MAX_DATE;
     }
     
     return;
@@ -98,19 +120,22 @@ function fixAmountBounds(obj){
         obj.amountLowerBound = 0;
     }
 
-    if (obj.amountUpperBound == undefined || obj.amountLowerBound == null || isNaN(obj.amountUpperBound)){
+    if (obj.amountLowerBound < 0)
+        obj.amountLowerBound = 0;
+
+    if (obj.amountUpperBound == undefined || obj.amountUpperBound == null || isNaN(obj.amountUpperBound)){
         obj.amountUpperBound = Number.MAX_VALUE;
     }
 
-    if (obj.amountLowerBound > 0 && obj.amountUpperBound >= obj.amountLowerBound){
-        return;
-    }
-
-    throw new PlutusErrors.PlutusamountBoundError("no endpoint");
 }
 module.exports = {
     hasParams, 
-    fixEndDate, 
-    fixStartDate,
-    fixAmountBounds
+    fixEndDateDefaultMaxDate, 
+    fixStartDateDefaultMinDate,
+    fixDateDefaultToPresent,
+    fixAmountBounds,
+    MAX_DATE,
+    MIN_DATE,
+    MAX_YEAR,
+    MIN_YEAR
 };
