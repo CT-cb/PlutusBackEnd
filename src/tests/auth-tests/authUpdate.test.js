@@ -22,5 +22,8 @@ test("updating user info returns a success", () =>{
     })
     .catch(error => {
       console.error(error);
+
 });
+
+
 

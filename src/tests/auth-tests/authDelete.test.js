@@ -22,6 +22,7 @@ test("existing account is properly deleted",async () => {
 
     let Deleteres = await fetch(DeleteUrl, {
   method: 'DELETE',
+  
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

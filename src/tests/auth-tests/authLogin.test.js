@@ -30,6 +30,7 @@ test("login doesnt work with a user not in the database", () =>{
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
+  
   body: JSON.stringify({
     email: goodEmail,
     password: pwd,

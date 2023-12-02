@@ -23,6 +23,7 @@ test("create account post did not have proper json email", () => {
     })
     .catch(error => {
       console.error(error);
+      
     });
 
     test("create account post did not have a password", () => {
