@@ -1,4 +1,4 @@
-
+const GlobalHelpers = require('./global-helpers');
 
 // function to check if an incoming new limit has the right attributes
 const hasCorrectAttributes = function (obj) {
@@ -31,10 +31,22 @@ function cleanBody(obj){
         return;
 
     if (obj.startDate == undefined){
-        obj.startDate = new Date().toIsoString();
+        obj.startDate = GlobalHelpers.MIN_DATE;
     } else {
-        //TODO here
+        obj.startDate = cleanStartDate(obj.startDate);
+    }
+
+    if (obj.endDate == undefined){
+        obj.endDate = GlobalHelpers.MAX_DATE;
+    } else {
+        obj.endDate = cleanEndDate(obj.endDate);
     }
 }
 
-module.exports = { hasCorrectAttributes }
+
+
+module.exports = { 
+    hasCorrectAttributes,
+    cleanLimitStartDate,
+    cleanLimitEndDate
+}
