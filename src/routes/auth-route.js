@@ -27,7 +27,6 @@ console.log("Well, we're here...");
 // /auth/create endpoint for creating a new account
 router.post("/create", async (req, res, next) => {
     try {
-
         if (!AuthHelpers.hasLoginKeys(req.body)) {
             throw new PlutusErrors.PlutusBadJsonRequestError(endpoint);
         }
