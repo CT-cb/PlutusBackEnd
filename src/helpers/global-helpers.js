@@ -24,6 +24,10 @@ const hasParams = function(obj,params){
         return false;
     }
 
+    if (obj.length < 1){
+        return false;
+    }
+
     for (let i = 0; i<params.length;i++){
         let param = params[i];
         if (obj[param] == undefined || obj[param] == null){
@@ -113,6 +117,10 @@ function fixEndDateDefaultMaxDate(obj){
     }
     
     return;
+}
+
+function isValidEmail(email){
+    return /[A-Za-z0-9\.\_]{1,}@[A-Za-z0-9(.)]+\.[A-Za-z]{2,}/.test(email);
 }
 
 function fixAmountBounds(obj){

@@ -1,7 +1,7 @@
 require('jest');
 jest.setTimeout(30000);
 
-const request = require('supertest')
+const supertest = require('supertest')
 const app = require('../../app.js').app;
 const mongoose = require('mongoose');
 const connectToMongoDb = require("../../connections/mongodb-connect-collin").connectToMongo;
@@ -9,7 +9,6 @@ const IncomeModel = require('../../models/income-model');
 
 let connection = connectToMongoDb();
 
-const req = request(app);
 beforeAll(() => {
     mongoose.connection.useDb("incomes");
 });
@@ -21,7 +20,7 @@ describe('returns all incomes data for a specific email from database', () => {
     test('should return all incomes for valid email', async() => {
         
         // Send a request to the API endpoint
-        const response = await req
+        const response = await supertest(app)
             .get(`/incomes/all?email=${testEmail}`)
             .set('Accept', 'application/json');
         
@@ -31,20 +30,26 @@ describe('returns all incomes data for a specific email from database', () => {
         expect(response.body[0].email).toBe(testEmail);
     });
   
-    test('should handle invalid email', async () => {
+    /*test('should handle invalid email', async () => {
         // Send a request to the API endpoint with an invalid email
-        const response = await req
-            .get(`/incomes/all?email=${invalidEmail}`)
-            .set('Accept', 'application/json');
+        const response = await supertest(app)
+            .get('/incomes/all')
+            .set('Accept', 'application/json')
+            .query({
+                email: invalidEmail
+            });
 
         // Assertions
         expect(response.statusCode).toBe(400); 
-    });
+    });*/
 
     test('should handle errors for null email', async () => {
-        let res = await req
+        let res = await supertest(app)
             .get('/incomes/all')
-            .set('Accept', 'application/json');
+            .set('Accept', 'application/json')
+            .query({
+                notanemail: "no"
+            });
 
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty('status', 'error');

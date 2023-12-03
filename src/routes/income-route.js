@@ -93,7 +93,6 @@ router.get("/all", async (req, res, next) => {
     endpoint += "/all";
     try {
         console.log(req.query);
-        console.log(req.params);
         if (!GlobalHelpers.hasParams(
             req.query,
             ["email"]
@@ -104,16 +103,6 @@ router.get("/all", async (req, res, next) => {
         let email = req.query.email;
         let results = await IncomeModel.where("email").equals(email);
 
-        if (results.length === 0) {
-            res.status(404).json({ error: 'No incomes found for the provided email' });
-            return;
-        }
-
-        if (results == undefined || results == null) {
-            throw new Error("placeholder error");
-        }
-        console.log(results);
-        console.log(results[0]);
         res.status(200);
         res.json(results);
     } catch (err) {
@@ -125,8 +114,8 @@ router.get("/bydaterange", async (req, res, next) => {
     endpoint += "/bydaterange";
     try {
 
-        GlobalHelpers.fixStartDate(req.query);
-        GlobalHelpers.fixEndDate(req.query);
+        GlobalHelpers.fixStartDateDefaultMinDate(req.query);
+        GlobalHelpers.fixEndDateDefaultMaxDate(req.query);
 
         if (!GlobalHelpers.hasParams(
             req.query,
@@ -148,11 +137,6 @@ router.get("/bydaterange", async (req, res, next) => {
         let results = await IncomeModel
             .where("email").equals(email)
             .where("incomeDate").gte(startDate.toISOString()).lte(endDate.toISOString());
-
-
-        if (results == undefined || results == null) {
-            throw new Error("placeholder error");
-        }
 
         res.status(200);
         res.json(results);
@@ -181,12 +165,6 @@ router.get("/bytype", async (req, res, next) => {
             types = types.slice(0, 10);
         }
 
-        types.forEach((type) => {
-            if (!typeof type === 'string' && !type instanceof String) {
-                type == "nullString";
-            }
-        });
-
         let results = [];
         for (let i = 0; i < types.length; i++) {
             let type = types[i];
@@ -198,11 +176,6 @@ router.get("/bytype", async (req, res, next) => {
             query_results.forEach((result) => {
                 results.push(result);
             });
-        }
-
-        if (results.length === 0) {
-            res.status(404).json({ error: 'No incomes found for the provided email or type' });
-            return;
         }
 
         res.status(200);
@@ -217,8 +190,8 @@ router.get("/bytype_daterange", async (req, res, next) => {
 
     try {
 
-        GlobalHelpers.fixStartDate(req.query);
-        GlobalHelpers.fixEndDate(req.query);
+        GlobalHelpers.fixStartDateDefaultMinDate(req.query);
+        GlobalHelpers.fixEndDateDefaultMaxDate(req.query);
 
         if (!GlobalHelpers.hasParams(
             req.query,
@@ -238,16 +211,6 @@ router.get("/bytype_daterange", async (req, res, next) => {
             console.log("Can only have 10 types max");
             types = types.slice(0, 10);
         }
-
-        types.forEach((type) => {
-            if (!typeof type === 'string' && !type instanceof String) {
-                type == "nullString";
-            }
-        });
-
-        console.log(types);
-        console.log(startDate);
-        console.log(endDate);
 
         let results = [];
         for (let i = 0; i < types.length; i++) {
@@ -302,8 +265,8 @@ router.get("/byamount_daterange", async (req, res, next) => {
 
     try {
         GlobalHelpers.fixAmountBounds(req.query);
-        GlobalHelpers.fixStartDate(req.query);
-        GlobalHelpers.fixEndDate(req.query);
+        GlobalHelpers.fixStartDateDefaultMinDate(req.query);
+        GlobalHelpers.fixEndDateDefaultMaxDate(req.query);
 
         if (!GlobalHelpers.hasParams(
             req.query,

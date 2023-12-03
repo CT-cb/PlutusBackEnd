@@ -15,7 +15,6 @@ const authRoute = require("./auth-route");
  * What middleware should be used? Plan that out and write appropriate middleware functions in /helpers/.
  */
 
-
 router.use("/test",require("./test-route")); // random route for testing things
 
 // Uncomment each line once its route is ready to be tested
