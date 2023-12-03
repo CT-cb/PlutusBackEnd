@@ -23,9 +23,15 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
                 <span class="strong">45.45% </span>
                 <span class="quiet">Statements</span>
                 <span class='fraction'>10/22</span>
+=======
+                <span class="strong">38.88% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>7/18</span>
+>>>>>>> unit-tests-collin
             </div>
         
             
@@ -37,16 +43,28 @@
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
                 <span class="strong">25% </span>
                 <span class="quiet">Functions</span>
                 <span class='fraction'>2/8</span>
+=======
+                <span class="strong">16.66% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>1/6</span>
+>>>>>>> unit-tests-collin
             </div>
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
                 <span class="strong">45.45% </span>
                 <span class="quiet">Lines</span>
                 <span class='fraction'>10/22</span>
+=======
+                <span class="strong">38.88% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>7/18</span>
+>>>>>>> unit-tests-collin
             </div>
         
             
@@ -122,8 +140,13 @@
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
+<<<<<<< HEAD
 <a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+=======
+<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+>>>>>>> unit-tests-collin
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -133,23 +156,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<<<<<<< HEAD
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
+=======
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+>>>>>>> unit-tests-collin
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<<<<<<< HEAD
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+=======
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+>>>>>>> unit-tests-collin
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -180,7 +217,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<<<<<<< HEAD
 <span class="cline-any cline-yes">1x</span>
+=======
+<span class="cline-any cline-yes">3x</span>
+>>>>>>> unit-tests-collin
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const mongoose = require('mongoose');
 require('dotenv').config();
 &nbsp;
@@ -196,6 +237,7 @@ async function connectToMongo(){
     await mongoose.connect(URI);
     let connected = false;
     
+<<<<<<< HEAD
     mongoose.connection.on('connected', function (ref) {
         connected=true;
         //console.log(mongoose.connection.models);
@@ -207,6 +249,19 @@ async function connectToMongo(){
         //console.log('error connection to mongo server!');
         //console.log(err);
     });
+=======
+    /*mongoose.connection.on('connected', function (ref) {
+        connected=true;
+        //console.log(mongoose.connection.models);
+        //console.log('connected to mongo server.');
+    });*/
+    
+    /*mongoose.connection.on('error', function (err) {
+        connected=false;
+        //console.log('error connection to mongo server!');
+        //console.log(err);
+    });*/
+>>>>>>> unit-tests-collin
 &nbsp;
     return mongoose.connection;
 }
@@ -247,7 +302,11 @@ module.exports = {connectToMongo, disconnectFromMongo, connectToUsersDb};
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+<<<<<<< HEAD
                 at 2023-12-03T01:48:26.302Z
+=======
+                at 2023-12-03T02:29:10.111Z
+>>>>>>> unit-tests-collin
             </div>
         <script src="../../prettify.js"></script>
         <script>

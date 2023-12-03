@@ -25,9 +25,9 @@ app.use('/',require('./routes'));
 
 // Listen on the port
 //let server = app.listen(PORT, () => console.log(`Server started on port ${PORT} !!!`));
-app.get('/',function(req,res) {
+/*app.get('/',function(req,res) {
     res.json("The API test worked.");
-});
+});*/
 
 app.use(function(error, req,res,next){
     // error handler

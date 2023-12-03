@@ -1,10 +1,12 @@
 require('jest');
+require('supertest');
+
 let badEmail = "plutustestname";
 let goodEmail = "plutustestname@plutus.com"
 let pwd = "abc123"
 const CreateUrl = "http://3.17.169.64:3000/auth/create"
 
-test("create account post did not have proper json email", () => {
+test("create account post did not have proper json email", async () => {
         fetch(CreateUrl, {
   method: 'POST',
   headers: {
@@ -17,15 +19,16 @@ test("create account post did not have proper json email", () => {
     firstName: "Kaleb",
     lastName: "Hedrick"
   })
-    })}).then(response => response.json())
+    }).then(response => response.json())
     .then(json => {
      return expect(json.status).toEqual("error");
     })
     .catch(error => {
       console.error(error);
     });
+});
 
-    test("create account post did not have a password", () => {
+    test("create account post did not have a password", async () => {
         fetch(CreateUrl, {
   method: 'POST',
   headers: {
@@ -38,7 +41,7 @@ test("create account post did not have proper json email", () => {
     firstName: "Kaleb",
     lastName: "Hedrick"
   })
-    })}).then(response => response.json())
+    }).then(response => response.json())
     .then(json => {
      return expect(json.status).toEqual("error");
     })
@@ -46,7 +49,9 @@ test("create account post did not have proper json email", () => {
       console.error(error);
     });
 
-    test("create account post did not have a first name", () => {
+});
+
+    test("create account post did not have a first name", async () => {
         fetch(CreateUrl, {
   method: 'POST',
   headers: {
@@ -59,15 +64,16 @@ test("create account post did not have proper json email", () => {
     firstName: "",
     lastName: "Hedrick"
   })
-    })}).then(response => response.json())
+    }).then(response => response.json())
     .then(json => {
      return expect(json.status).toEqual("error");
     })
     .catch(error => {
       console.error(error);
     });
+  });
 
-    test("create account post did not have a last name", () => {
+    test("create account post did not have a last name", async () => {
         fetch(CreateUrl, {
   method: 'POST',
   headers: {
@@ -80,10 +86,11 @@ test("create account post did not have proper json email", () => {
     firstName: "Kaleb",
     lastName: ""
   })
-    })}).then(response => response.json())
+    }).then(response => response.json())
     .then(json => {
      return expect(json.status).toEqual("error");
     })
     .catch(error => {
       console.error(error);
     });
+  });

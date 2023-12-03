@@ -23,30 +23,54 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
                 <span class="strong">15.38% </span>
                 <span class="quiet">Statements</span>
                 <span class='fraction'>2/13</span>
+=======
+                <span class="strong">84.61% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>11/13</span>
+>>>>>>> unit-tests-collin
             </div>
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
                 <span class='fraction'>0/6</span>
+=======
+                <span class="strong">66.66% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>4/6</span>
+>>>>>>> unit-tests-collin
             </div>
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
                 <span class='fraction'>0/1</span>
+=======
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>1/1</span>
+>>>>>>> unit-tests-collin
             </div>
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
                 <span class="strong">16.66% </span>
                 <span class="quiet">Lines</span>
                 <span class='fraction'>2/12</span>
+=======
+                <span class="strong">83.33% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>10/12</span>
+>>>>>>> unit-tests-collin
             </div>
         
             
@@ -61,7 +85,11 @@
             </div>
         </template>
     </div>
+<<<<<<< HEAD
     <div class='status-line low'></div>
+=======
+    <div class='status-line high'></div>
+>>>>>>> unit-tests-collin
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -96,6 +124,7 @@
 <a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<<<<<<< HEAD
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -106,6 +135,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+=======
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+>>>>>>> unit-tests-collin
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -113,6 +154,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<<<<<<< HEAD
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -136,6 +178,31 @@ const hasCorrectAttributes = <span class="fstat-no" title="function not covered"
     }
 &nbsp;
     let attribs = <span class="cstat-no" title="statement not covered" >[</span>
+=======
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
+&nbsp;
+// function to check if an incoming new expense has the right attributes
+const hasCorrectAttributes = function (obj) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (obj == null) {
+<span class="cstat-no" title="statement not covered" >        return false;</span>
+    }
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (Object.getPrototypeOf(obj) != Object.prototype) {
+<span class="cstat-no" title="statement not covered" >        return false;</span>
+    }
+&nbsp;
+    let attribs = [
+>>>>>>> unit-tests-collin
         "email",
         "method",
         "amount",
@@ -143,6 +210,7 @@ const hasCorrectAttributes = <span class="fstat-no" title="function not covered"
         "expenseDate",
     ];
 &nbsp;
+<<<<<<< HEAD
 <span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; attribs.length; i++) {</span>
         let attrib = <span class="cstat-no" title="statement not covered" >attribs[i];</span>
 <span class="cstat-no" title="statement not covered" >        if (obj[attrib] == undefined) {</span>
@@ -151,6 +219,16 @@ const hasCorrectAttributes = <span class="fstat-no" title="function not covered"
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return true;</span>
+=======
+    for (let i = 0; i &lt; attribs.length; i++) {
+        let attrib = attribs[i];
+        if (obj[attrib] == undefined) {
+            return false;
+        }
+    }
+&nbsp;
+    return true;
+>>>>>>> unit-tests-collin
 }
 &nbsp;
 module.exports = { hasCorrectAttributes }</pre></td></tr></table></pre>
@@ -160,7 +238,11 @@ module.exports = { hasCorrectAttributes }</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+<<<<<<< HEAD
                 at 2023-12-03T01:48:26.302Z
+=======
+                at 2023-12-03T02:29:10.111Z
+>>>>>>> unit-tests-collin
             </div>
         <script src="../../prettify.js"></script>
         <script>
