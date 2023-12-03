@@ -1,96 +1,52 @@
 require('jest');
-require('supertest');
 
-let badEmail = "plutustestname";
-let goodEmail = "plutustestname@plutus.com"
-let pwd = "abc123"
-const CreateUrl = "http://3.17.169.64:3000/auth/create"
+const mongoose = require('mongoose');
+const supertest = require('supertest');
+const app = require('../../app').app;
+
+let correctEmail = `newemail${new Date().getTime()}@plutus.com`;
+let incorrectEmail = "newEmail@something";
+let password = "abc123";
+
+let noEmail = {
+  password: password
+};
+
+let noPassword = {
+  email: correctEmail
+};
+
+let correctObj = {
+  email: correctEmail,
+  password: password
+};
+
+afterAll(async()=>{
+  await mongoose.disconnect();
+})
 
 test("create account post did not have proper json email", async () => {
-        fetch(CreateUrl, {
-  method: 'POST',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    email: badEmail,
-    password: pwd,
-    firstName: "Kaleb",
-    lastName: "Hedrick"
-  })
-    }).then(response => response.json())
-    .then(json => {
-     return expect(json.status).toEqual("error");
-    })
-    .catch(error => {
-      console.error(error);
-    });
+    let res = await supertest(app)
+    .post("/auth/create")
+    .query(noEmail);
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toHaveProperty("status","error");
 });
 
-    test("create account post did not have a password", async () => {
-        fetch(CreateUrl, {
-  method: 'POST',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    email: goodEmail,
-    password: "",
-    firstName: "Kaleb",
-    lastName: "Hedrick"
-  })
-    }).then(response => response.json())
-    .then(json => {
-     return expect(json.status).toEqual("error");
-    })
-    .catch(error => {
-      console.error(error);
-    });
+test("create account post did not have proper password", async () => {
+  let res = await supertest(app)
+  .post("/auth/create")
+  .send(noPassword);
 
+  expect(res.statusCode).toBe(400);
+  expect(res.body).toHaveProperty("status","error");
 });
 
-    test("create account post did not have a first name", async () => {
-        fetch(CreateUrl, {
-  method: 'POST',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    email: goodEmail,
-    password: pwd,
-    firstName: "",
-    lastName: "Hedrick"
-  })
-    }).then(response => response.json())
-    .then(json => {
-     return expect(json.status).toEqual("error");
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  });
+test("request w/ username and passowrd works",async()=>{
+  let res = await supertest(app)
+  .post("/auth/create")
+  .send(correctObj);
 
-    test("create account post did not have a last name", async () => {
-        fetch(CreateUrl, {
-  method: 'POST',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    email: goodEmail,
-    password: pwd,
-    firstName: "Kaleb",
-    lastName: ""
-  })
-    }).then(response => response.json())
-    .then(json => {
-     return expect(json.status).toEqual("error");
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  });
+  expect(res.statusCode).toBe(200);
+});

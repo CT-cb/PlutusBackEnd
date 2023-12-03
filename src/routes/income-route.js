@@ -27,7 +27,6 @@ router.delete("/delete", async (req,res,next)=>{
                 email: email,
                 incomeId: incomeId
             });
-            console.log(result);
         })
         
         /*let results = await IncomeModel.where("email").equals(email).where("incomeId").equals(incomeId);
@@ -76,7 +75,8 @@ router.post("/add", async (req, res, next) => {
 
         res.status(200);
         res.json({
-            "status": "income_add_success"
+            "status": "income_add_success",
+            "id": income.incomeId
         });
 
     } catch (err) {
@@ -92,7 +92,6 @@ router.post("/add", async (req, res, next) => {
 router.get("/all", async (req, res, next) => {
     endpoint += "/all";
     try {
-        console.log(req.query);
         if (!GlobalHelpers.hasParams(
             req.query,
             ["email"]
@@ -129,14 +128,10 @@ router.get("/bydaterange", async (req, res, next) => {
         let email = req.query.email;
         let startDate = new Date(req.query.startDate);
         let endDate = new Date(req.query.endDate);
-        console.log(email);
-        console.log(startDate);
-        console.log(endDate);
-        console.log("==== here");
-        // construct query
+     
         let results = await IncomeModel
             .where("email").equals(email)
-            .where("incomeDate").gte(startDate.toISOString()).lte(endDate.toISOString());
+            .where("incomeDate").gte(startDate).lte(endDate);
 
         res.status(200);
         res.json(results);
@@ -148,7 +143,6 @@ router.get("/bydaterange", async (req, res, next) => {
 
 router.get("/bytype", async (req, res, next) => {
     endpoint += "/bytype";
-    console.log("/bytype endpoint");
     try {
         if (!GlobalHelpers.hasParams(
             req.query,
@@ -161,7 +155,6 @@ router.get("/bytype", async (req, res, next) => {
         let email = req.query.email;
         let types = req.query.types.split(",");
         if (types.length > 10) {
-            console.log("Can only have 10 types max");
             types = types.slice(0, 10);
         }
 
@@ -170,10 +163,10 @@ router.get("/bytype", async (req, res, next) => {
             let type = types[i];
 
             let query_results = await IncomeModel
-                .where("email").equals(email)
-                .where("type").equals(type);
+                .find({email: email, type: type}).exec();
         
             query_results.forEach((result) => {
+                
                 results.push(result);
             });
         }
@@ -208,7 +201,6 @@ router.get("/bytype_daterange", async (req, res, next) => {
         let endDate = new Date(req.query.endDate);
         let types = req.query.types.split(",");
         if (types.length > 10) {
-            console.log("Can only have 10 types max");
             types = types.slice(0, 10);
         }
 
@@ -217,11 +209,13 @@ router.get("/bytype_daterange", async (req, res, next) => {
             let type = types[i];
             let query_results = await IncomeModel
                 .where("email").equals(email)
-                .where("incomeDate").gte(startDate.toISOString()).lte(endDate.toISOString())
-                .where("type").equals(type)
-                ;
-            console.log(query_results);
+                .where("incomeDate").gte(startDate).lte(endDate)
+                .where("type").equals(type);
+
+            
+            
             query_results.forEach((result) => {
+                
                 results.push(result);
             });
         }
@@ -286,7 +280,7 @@ router.get("/byamount_daterange", async (req, res, next) => {
         let endDate = new Date(req.query.endDate);
         let results = await IncomeModel
             .where("email").equals(email)
-            .where("incomeDate").gte(startDate.toISOString()).lte(endDate.toISOString())
+            .where("incomeDate").gte(startDate).lte(endDate)
             .where("amount").gte(lowerBound).lte(upperBound);
 
         res.status(200);

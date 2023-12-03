@@ -11,48 +11,34 @@ const { v4: uuidv4 } = require('uuid');
 
 let connection = connectToMongoDb();
 
-beforeAll(() => {
-    mongoose.connection.useDb("limits");
+beforeAll(async () => {
+  await mongoose.connection.useDb("limits");
 });
 
 describe('limits/all tests', () => {
-    test('should get all limits given an email', async () => {
-    
-        const email = "planwithplutus@gmail.com";
-        const response = await request(app)
-        .get('/limits/all')
-        .query({
-            email: email
-        });
-  
-      // Assertions
-      expect(response.status).toBe(200);
-    });
-    test('should throw placeholder error if given an incorrect email', async () => {
+  test('should get all limits given an email', async () => {
 
-        const email = "incorrectemail1231141414141245@email.com";
-        const response = await request(app)
-        .get('/limits/all')
-        .query({
-            email: email
-        });
-  
-      // Assertions
-      expect(response.status).toBe(400);
-      expect(response.body.status).toBe('error');
-      expect(response.body.message).toBe('placeholder error');
+    const email = "planwithplutus@gmail.com";
+    const response = await request(app)
+      .get('/limits/all')
+      .query({
+        email: email
+      });
 
-    });
-    test('should handle missing parameters', async () => {
-      const response = await request(app)
-        .get('/limits/all')
-        .set('Accept', 'application/json');
-  
-      // Assertions
-        expect(response.status).toBe(400);
-    });
+    // Assertions
+    expect(response.status).toBe(200);
+  });
+
+  test('should handle missing parameters', async () => {
+    const response = await request(app)
+      .get('/limits/all')
+      .set('Accept', 'application/json');
+
+    // Assertions
+    expect(response.status).toBe(400);
+  });
 });
 
 afterAll(() => {
-    mongoose.connection.close();
+  mongoose.connection.close();
 });

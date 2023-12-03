@@ -1,43 +1,61 @@
 require('jest');
-let badEmail = "plutustestname";
-let goodEmail = "plutustestname@plutus.com"
-let pwd = "abc123"
-const LoginUrl = "http://3.17.169.64:3000/auth/login"
 
-test("login works with a user in the database", () =>{
-    fetch(LoginUrl, {
-  method: 'POST',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    email: goodEmail,
-    password: pwd,
-  })
-    })}).then(response => response.json())
-    .then(json => {
-     return expect(json.status).toEqual("auth_success");
-    })
-    .catch(error => {
-      console.error(error);
+const supertest = require('supertest');
+const app = require('../../app').app;
+const mongoose = require('mongoose');
+
+let realEmail = "planwithplutus@gmail.com";
+let realPwd = "abc123";
+
+let fakeEmail = "fakeemail@fake.com";
+let fakePwd = "fakepwd";
+
+afterAll(async ()=>{
+  await mongoose.disconnect();
 });
 
-test("login doesnt work with a user not in the database", () =>{
-    fetch(LoginUrl, {
-  method: 'POST',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    email: goodEmail,
-    password: pwd,
-  })
-    })}).then(response => response.json())
-    .then(json => {
-     return expect(json.status).toEqual("error");
-    })
-    .catch(error => {
-      console.error(error);
+test("login works with a user in the database", async () =>{
+    let res = await supertest(app)
+    .post("/auth/login")
+    .send({
+      email: realEmail,
+      password: realPwd
+    });
+
+    expect(res.statusCode).toBe(200);
+});
+
+test("login doesn't work with a bad email",async()=>{
+  let res = await supertest(app)
+  .post("/auth/login")
+  .send({
+    email: fakeEmail,
+    password: fakePwd
+  });
+
+  expect(res.statusCode).toBe(400);
+  expect(res.body).toHaveProperty("status","error");
+});
+
+test("login doesn't work with a bad password but real email",async()=>{
+  let res = await supertest(app)
+  .post("/auth/login")
+  .send({
+    email: realEmail,
+    password: fakePwd
+  });
+
+  expect(res.statusCode).toBe(400);
+  expect(res.body).toHaveProperty("status","error");
+});
+
+test("login doesn't work with a missing param",async()=>{
+  let res = await supertest(app)
+  .post("/auth/login")
+  .send({
+    password: fakePwd
+  });
+
+  expect(res.statusCode).toBe(400);
+  expect(res.body).toHaveProperty("status","error");
 });

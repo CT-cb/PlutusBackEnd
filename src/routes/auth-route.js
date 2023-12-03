@@ -21,9 +21,6 @@ router.use((req, res, next) => {
     next();
 });
 
-//const NewUserAccount = mongoose.model('NewUserAccount');
-
-console.log("Well, we're here...");
 // /auth/create endpoint for creating a new account
 router.post("/create", async (req, res, next) => {
     try {
@@ -73,7 +70,10 @@ router.delete("/delete", async (req, res, next) => {
             throw new PlutusErrors.PlutusPasswordMismatchDbError(endpoint);
         }
 
-        UserModel.deleteOne({ _id: user_doc._id });
+        console.log(user_doc);
+        console.log(user_doc[0]);
+
+        await UserModel.deleteOne({ email: email });
 
         res.status(200);
         res.json({
@@ -105,14 +105,26 @@ router.put("/update", async (req, res, next) => {
             throw new PlutusErrors.PlutusPasswordMismatchDbError(endpoint);
         }
 
-        user_doc[0].updateFields(req.body);
+        let doc = user_doc[0];
+ 
+        doc.email = email;
+        doc.password = password;
+    
+        if (req.body.firstName){
+            doc.firstName = req.body.firstName;
+        }
+    
+        if (req.body.lastName){
+            doc.lastName = req.body.lastName;
+        }
 
-        user_doc[0].save(); 
+        doc.save(); 
 
         res.status(200);
         res.json({
             "status":"update_account_success"
         });
+
     } catch (err) {
         next(err);
     }

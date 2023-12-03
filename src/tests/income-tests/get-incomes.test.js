@@ -29,9 +29,9 @@ let incorrectStartDate = 35;
 let correctEndDate = "2023-11-30";
 let incorrectEndDate = "4001-01-01";
 
-let exampleTwoTypes="vacation,business";
-let exampleOneType="business";
-let moreThanTenTypes="business,vacation,fun,taxes,random,misc,boating,horses,ukelele,dancing,type11,type12,type13";
+let exampleTwoTypes="vacation,direct_deposit";
+let exampleOneType="direct_deposit";
+let moreThanTenTypes="direct_deposit,vacation,fun,taxes,random,misc,boating,horses,ukelele,dancing,type11,type12,type13";
 
 let negativeAmount = -10;
 let correctLowerBound = 10;
@@ -51,7 +51,8 @@ describe('/all tests', () => {
                 email: correctEmail
             });
 
-
+        console.log(res.body);
+        expect(res.body.length > 0);
         expect(res.statusCode).toBe(200);
     });
 

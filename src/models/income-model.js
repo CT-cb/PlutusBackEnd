@@ -5,7 +5,7 @@ const GlobalHelpers = require("../helpers/global-helpers");
 const IncomeSchema = new mongoose.Schema({
     incomeId: {
         type: String,
-        default: uuid.v4(),
+        default: uuid.v4,
         immutable: true,
         required: true,
         unique: true,

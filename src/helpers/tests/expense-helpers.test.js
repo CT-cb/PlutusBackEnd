@@ -3,7 +3,10 @@
  */
 require('jest');
 const ExpenseHelpers = require('../expense-helpers');
-
+const mongoose = require('mongoose');
+afterAll(async()=>{
+    await mongoose.disconnect();
+});
 describe('tests for hasCorrectAttributes',()=>{
     let correctObj = {
         "email":"planwithplutus@gmail.com",

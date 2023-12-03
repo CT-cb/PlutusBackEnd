@@ -33,31 +33,6 @@ const UserSchema = new mongoose.Schema({
     }
 }/*, {timestamps: true}*/);
 
-/*
-UserSchema.methods.updateFields = function(obj){
-
-    if (obj == null)
-        return;
-
-    if (obj.email){
-        this.email = obj.email;
-    }
-
-    if (obj.password){
-        this.password = obj.password;
-    }
-
-    if (obj.firstName){
-        this.firstName = obj.firstName;
-    }
-
-    if (obj.lastName){
-        this.lastName = obj.lastName;
-    }
-}*/
-
-
-
 const UserModel = mongoose.model('users',UserSchema);
 
 module.exports = UserModel;

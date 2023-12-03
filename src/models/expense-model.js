@@ -5,7 +5,7 @@ const GlobalHelpers = require('../helpers/global-helpers');
 const ExpenseSchema = new mongoose.Schema({
     expenseId: {
         type: String,
-        default: uuid.v4(),
+        default: uuid.v4,
         immutable: true,
         required: true,
         unique: true

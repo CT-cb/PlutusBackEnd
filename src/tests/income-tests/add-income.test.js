@@ -3,7 +3,7 @@ require('jest');
 jest.setTimeout(10000);
 
 //Also use the supertest framework
-const request = require('supertest');
+const supertest = require('supertest');
 
 const app = require('../../app.js').app;
 const mongoose = require('mongoose');
@@ -11,7 +11,6 @@ const connectToMongoDb = require("../../connections/mongodb-connect-collin").con
 const IncomeModel = require('../../models/income-model');
 
 let connection = connectToMongoDb();
-const req = request(app);
 
 
 //Connecting to the database
@@ -24,7 +23,7 @@ beforeAll(async () => {
 //Collection of adding income tests
 describe('/add tests', () => {
 
-    let correctObj = new IncomeModel({
+    let correctObj = {
         "email":"planwithplutus@gmail.com",
         "amount":1000,
         "currency":"usd",
@@ -34,7 +33,7 @@ describe('/add tests', () => {
             "name":"Internship",
             "description":"Something cool."
         }
-    });
+    };
 
     let correctObjNoSource = {
         "email":"planwithplutus@gmail.com",
@@ -50,21 +49,20 @@ describe('/add tests', () => {
 
     //Test that the correct object gets added to the database
     test('correct obj is added', async () => {
-        let res = await req
+        let res = await supertest(app)
             .post('/incomes/add')
-            .send(JSON.stringify(correctObj))
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json');
+            .send(correctObj);
 
+            console.log(res.body);
         expect(res.statusCode).toBe(200);
         expect(res.body).toHaveProperty('status', 'income_add_success');
     });
 
     //Test that the correct object with no source gets added to the database
     test('correct obj is added', async () => {
-        let res = await req
+        let res = await supertest(app)
             .post('/incomes/add')
-            .send(JSON.stringify(correctObjNoSource))
+            .send(correctObjNoSource)
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json');
 
@@ -74,9 +72,9 @@ describe('/add tests', () => {
     
     //Test that the incorrect income doesn't get added
     test('incorrect object is not added', async () => {
-        let res = await req
+        let res = await supertest(app)
             .post('/incomes/add')
-            .send(JSON.stringify(incorrectObj))
+            .send(incorrectObj)
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json');
 
@@ -87,7 +85,7 @@ describe('/add tests', () => {
 
     //Test that a null income doesn't get added
     test('null payload is not added', async () => {
-        let res = await req
+        let res = await supertest(app)
             .post('/incomes/add')
             .send(null)
             .set('Content-Type', 'application/json')

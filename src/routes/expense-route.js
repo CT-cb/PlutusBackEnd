@@ -15,8 +15,7 @@ router.use((req, res, next) => {
 router.delete("/delete", async (req,res,next)=>{
     endpoint += "/delete";
     try{
-        console.log("Getting the query!!!");
-        console.log(req.query);
+    
         if (req.query.expenseIds == undefined || req.query.expenseIds == null){
             throw new PlutusErrors.PlutusMissingRequestParamsError(endpoint);
         }
@@ -51,16 +50,16 @@ router.delete("/delete", async (req,res,next)=>{
 
 router.post("/add", async (req, res, next) => {
     endpoint += "/add";
-    console.log("We are in the add route...");
+    
     try {
-        console.log(req.body.length);
-        console.log(req.body);
-        console.log("before error");
+        
+        
+        
         if (!ExpenseHelpers.hasCorrectAttributes(req.body)) {
             throw new PlutusErrors.PlutusBadJsonRequestError(endpoint);
         }
 
-        console.log("here");
+        
         let email = req.body.email;
         let amount = req.body.amount;
         let method = req.body.method;
@@ -84,10 +83,9 @@ router.post("/add", async (req, res, next) => {
         if (req.body.type) {
             expense.type = req.body.type;
         }
-        console.log("Saving???");
+        
         expense.save();
 
-        console.log("SENDING RESPONSE NOW!!!!!!!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!\n!!!!!!!!!!\n!!!!!!!!!!");
         res.status(200);
         res.json({
             "status": "expense_add_success",
@@ -108,8 +106,6 @@ router.post("/add", async (req, res, next) => {
 router.get("/all", async (req, res, next) => {
     endpoint += "/all";
     try {
-        console.log(req.query);
-        console.log(req.params);
         if (!GlobalHelpers.hasParams(
             req.query,
             ["email"]
@@ -147,10 +143,10 @@ router.get("/bydaterange", async (req, res, next) => {
         let email = req.query.email;
         let startDate = new Date(req.query.startDate);
         let endDate = new Date(req.query.endDate);
-        console.log(email);
-        console.log(startDate);
-        console.log(endDate);
-        console.log("==== here");
+        
+        
+        
+        
         // construct query
         let results = await ExpenseModel
             .where("email").equals(email)
@@ -171,7 +167,7 @@ router.get("/bydaterange", async (req, res, next) => {
 
 router.get("/bytype", async (req, res, next) => {
     endpoint += "/bytype";
-    console.log("/bytype endpoint");
+    
     try {
         if (!GlobalHelpers.hasParams(
             req.query,
@@ -184,7 +180,7 @@ router.get("/bytype", async (req, res, next) => {
         let email = req.query.email;
         let types = req.query.types.split(",");
         if (types.length > 10) {
-            console.log("Can only have 10 types max");
+            
             types = types.slice(0, 10);
         }
 
@@ -230,13 +226,12 @@ router.get("/bytype_daterange", async (req, res, next) => {
         let endDate = new Date(req.query.endDate);
         let types = req.query.types.split(",");
         if (types.length > 10) {
-            console.log("Can only have 10 types max");
+            
             types = types.slice(0, 10);
         }
 
-        console.log(types);
-        console.log(startDate);
-        console.log(endDate);
+        
+        
 
         let results = [];
         for (let i = 0; i < types.length; i++) {
@@ -246,7 +241,7 @@ router.get("/bytype_daterange", async (req, res, next) => {
                 .where("expenseDate").gte(startDate.toISOString()).lte(endDate.toISOString())
                 .where("type").equals(type)
                 ;
-            console.log(query_results);
+            
             query_results.forEach((result)=>{
                 results.push(result);
             });

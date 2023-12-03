@@ -1,37 +1,80 @@
 require('jest');
-let badEmail = "plutustestname";
-let goodEmail = "plutustestname@plutus.com"
-let pwd = "abc123"
-const CreateUrl = "http://3.17.169.64:3000/auth/create"
-const DeleteUrl = "http://3.17.169.64:3000/auth/delete"
-test("existing account is properly deleted",async () => {
-    let Createres = await fetch(CreateUrl, {
-  method: 'POST',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    email: goodEmail,
-    password: pwd,
-    firstName: "Kaleb",
-    lastName: "Hedrick"
-  })
-    })
-    let Createjson = await Createres.json();
+const supertest = require('supertest');
+const app = require('../../app').app;
+const mongoose = require('mongoose');
+let realEmail = "planwithplutus@gmail.com";
+let correctEmail = `newemail${new Date().getTime()}@plutus.com`;
+let incorrectEmail = "newEmail@something";
+let password = "abc123";
+let wrongPassword = "wrongpassword";
 
-    let Deleteres = await fetch(DeleteUrl, {
-  method: 'DELETE',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    email: goodEmail,
-    password: pwd,
-  })
-})
-    expect(await Deleteres).toEqual("delete_account_success");
+let noEmail = {
+  password: password
+};
+
+let noPassword = {
+  email: correctEmail
+};
+
+let incorrectObjBadEmail = {
+  email: incorrectEmail,
+  password: password
+}
+
+let incorrectObjWrongPwd = {
+  email: "planwithplutus@gmail.com",
+  password: wrongPassword
+};
+
+let correctObj = {
+  email: realEmail,
+  password: password
+};
+
+afterAll(async()=>{
+  await mongoose.disconnect();
 });
 
-   
+test("request w/o email returns error", async () => {
+  let res = await supertest(app)
+  .delete("/auth/delete")
+  .send(noEmail);
+
+  expect(res.statusCode).toBe(400);
+  expect(res.body).toHaveProperty("status","error");
+});
+
+test("request w/o password returns error", async () => {
+  let res = await supertest(app)
+  .delete("/auth/delete")
+  .send(noPassword);
+
+  expect(res.statusCode).toBe(400);
+  expect(res.body).toHaveProperty("status","error");
+});
+
+test("request with bad email returns error", async () => {
+  let res = await supertest(app)
+  .delete("/auth/delete")
+  .send(incorrectObjBadEmail);
+
+  expect(res.statusCode).toBe(400);
+  expect(res.body).toHaveProperty("status","error");
+});
+
+test("request w/o correct email but wrong pwd returns error", async () => {
+  let res = await supertest(app)
+  .delete("/auth/delete")
+  .send(incorrectObjWrongPwd);
+
+  expect(res.statusCode).toBe(400);
+  expect(res.body).toHaveProperty("status","error");
+});
+
+test("request w correct credentials gets the job done", async () => {
+  let res = await supertest(app)
+  .delete("/auth/delete")
+  .send(correctObj);
+
+  expect(res.statusCode).toBe(200);
+});

@@ -5,7 +5,7 @@ const GlobalHelpers = require('../helpers/global-helpers');
 const LimitSchema = new mongoose.Schema({
     limitId: {
         type: String,
-        default: uuid.v4(),
+        default: uuid.v4,
         required: true,
         immutable: true,
         unique: true

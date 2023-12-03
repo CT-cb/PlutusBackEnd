@@ -51,20 +51,9 @@ class PlutusMissingRequestParamsError extends PlutusError {
     }
 }
 
-class PlutusPriceBoundError extends PlutusError {
-    constructor(endpoint){
-        super(
-            "invalid_price_bounds",
-            "The price bounds for this request are invalid. Make sure that the lower bound is less than or equal to the upper bound.",
-            endpoint
-        );
-        this.name = "PlutusPriceBoundError";
-    }
-}
 module.exports = { 
     PlutusUserNotFoundDbError,
     PlutusPasswordMismatchDbError,
     PlutusBadJsonRequestError: PlutusBadJsonBodyError,
-    PlutusMissingRequestParamsError,
-    PlutusPriceBoundError
+    PlutusMissingRequestParamsError
 };

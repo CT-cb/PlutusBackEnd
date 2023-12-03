@@ -1,7 +1,7 @@
 require('jest');
 
 let AuthHelpers = require('../auth-helpers');
-
+const mongoose = require('mongoose');
 let goodObj = null;
 let badObjMissingEmail = null;
 let badObjMissingPassword = null;
@@ -20,6 +20,10 @@ beforeAll(() => {
         email: "test@test.com"
     }
 
+});
+
+afterAll(async()=>{
+    await mongoose.disconnect();
 });
 
 describe("test hasLoginKeys() function",()=>{
