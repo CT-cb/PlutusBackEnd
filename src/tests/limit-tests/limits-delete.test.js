@@ -27,6 +27,7 @@ describe('limits/delete tests', () => {
   
         // Use Mongoose's create method to add test documents to the database
         const addedLimits = await LimitModel.create(limitsData);
+        const consoleLogSpy = jest.spyOn(console, 'log');
 
         const response = await request(app)
         .delete('/limits/delete')
@@ -36,9 +37,21 @@ describe('limits/delete tests', () => {
         })
         .set('Accept', 'application/json');
   
+
+        await Promise.all(limitIds.map(async (limitId) => {
+          const result = await LimitModel.deleteMany({
+              email: testEmail,
+              limitId: limitId
+          });
+          console.log(result);
+      }));
+      
       // Assertions
       expect(response.status).toBe(200);
       expect(response.body.status).toBe('limit_delete_success');
+
+      expect(consoleLogSpy).toHaveBeenCalledWith(expect.any(Object));
+      consoleLogSpy.mockRestore();
     });
   
     test('should handle missing parameters', async () => {
