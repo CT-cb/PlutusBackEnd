@@ -17,16 +17,7 @@ beforeAll(() => {
 
 describe('limits/all tests', () => {
     test('should get all limits given an email', async () => {
-        // const testEmail = 'test2@example.com';
-        // const maxLimit = 1000;
-
-        // const limitsData = [
-        //     { email: testEmail, limitId: limitIds[0], maxLimit: maxLimit, timeDivision: 'week' },
-        //     { email: testEmail, limitId: limitIds[1], maxLimit: maxLimit, timeDivision: 'month' },
-        // ];
-        
-        // Use Mongoose's create method to add test documents to the database
-        // const addedLimits = await LimitModel.create(limitsData);
+    
         const email = "planwithplutus@gmail.com";
         const response = await request(app)
         .get('/limits/all')
@@ -36,7 +27,6 @@ describe('limits/all tests', () => {
   
       // Assertions
       expect(response.status).toBe(200);
-      //expect(response.body.status).toBe('limit_get_success');
     });
     test('should throw placeholder error if given an incorrect email', async () => {
 
