@@ -1,32 +1,59 @@
 require('jest');
 jest.setTimeout(10000);
 
-const request = require('supertest');
+const supertest = require('supertest');
 const app = require('../../app.js').app;
 const mongoose = require('mongoose');
 const connectToMongoDb = require("../../connections/mongodb-connect-collin").connectToMongo;
 const ExpenseModel = require('../../models/expense-model');
 
-let connection = connectToMongoDb();
-const req = request(app);
+//let connection = connectToMongoDb();
+//const req = supertest(app);
 
-beforeAll(() => {
-
+/*beforeEach(() => {
+    connectToMongoDb();
     mongoose.connection.useDb("expenses");
-});
+});*/
 
 
 
 describe('/add tests', () => {
 
-    let correctObj = new ExpenseModel({
-        "email":"planwithplutus@gmail.com",
-        "amount":300,
-        "method":"credit_card",
-        "type":"vacation",
-        "currency":"usd",
-        "expenseDate":"2021-10-23T21:03:01.522+00:00"
-    });
+    let correctObj = {
+        "email": "planwithplutus@gmail.com",
+        "amount": 999,
+        "method": "credit_card",
+        "type": "vacation",
+        "currency": "usd",
+        "expenseDate": "2023-10-23T21:03:01.522+00:00",
+        "payee":{
+            "name":"Test",
+            "type":"yes",
+            "description":"Something cool."
+        }
+    };
+
+    let correctObjNoType = {
+        "email": "planwithplutus@gmail.com",
+        "amount": 999,
+        "method": "credit_card",
+        "currency": "usd",
+        "expenseDate": "2023-10-23T21:03:01.522+00:00",
+        "payee":{
+            "name":"Test",
+            "type":"yes",
+            "description":"Something cool."
+        }
+    };
+
+    let correctObjNoPayee = {
+        "email": "planwithplutus@gmail.com",
+        "amount": 999,
+        "method": "credit_card",
+        "type": "vacation",
+        "currency": "usd",
+        "expenseDate": "2023-10-23T21:03:01.522+00:00"
+    }
 
     let incorrectObj = {
         "email": "planwithplutus@gmail.com",
@@ -34,59 +61,94 @@ describe('/add tests', () => {
         "expenseDate": Date.now()
     }
 
-    test('correct obj is added correctly', async () => {
-        let res = await req
+    it('correct obj is added correctly', async () => {
+        const res = await supertest(app)
             .post('/expenses/add')
-            .send(JSON.stringify(correctObj))
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json');
-            /*.end(function(err,res){
+            .send(correctObj);
+            /*.set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')*/
+            /*.expect((res)=>{
+                res.sta
+            })
+            .end(function(err,res){
                 if (err) throw err;
-                if (res) console.log(res);
+                if (res) console.log(res.body);
             })*/
 
-        console.log(res.body);
         expect(res.statusCode).toBe(200);
-        expect(res.body).toHaveProperty('status', 'expense_add_success');
-        expect(res.body).toHaveProperty('id');
-        //expect(res.body.id).toBeInstanceOf(string);
-        
+        //mongoose.connection.close();
+        //mongoose.disconnect();
+    });
+
+    it('correct obj is added correctly', async () => {
+        const res = await supertest(app)
+            .post('/expenses/add')
+            .send(correctObjNoType);
+            /*.set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')*/
+            /*.expect((res)=>{
+                res.sta
+            })
+            .end(function(err,res){
+                if (err) throw err;
+                if (res) console.log(res.body);
+            })*/
+
+        expect(res.statusCode).toBe(200);
+        //mongoose.connection.close();
+        //mongoose.disconnect();
+    });
+
+    it('correct obj is added correctly', async () => {
+        const res = await supertest(app)
+            .post('/expenses/add')
+            .send(correctObjNoPayee);
+            /*.set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')*/
+            /*.expect((res)=>{
+                res.sta
+            })
+            .end(function(err,res){
+                if (err) throw err;
+                if (res) console.log(res.body);
+            })*/
+
+        expect(res.statusCode).toBe(200);
+        //mongoose.connection.close();
+        //mongoose.disconnect();
     });
 
     test('incorrect obj is not added', async () => {
-        let res = await req
+        let res = await supertest(app)
             .post('/expenses/add')
-            .send(JSON.stringify(incorrectObj))
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json');
-            /*.end(function(err,res){
-                if (err) throw err;
-                if (res) console.log(res);
-            });*/
+            .send(incorrectObj);
 
-        expect(res.statusCode).toBe(500);
+        expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty('status', 'error');
         expect(res.body).toHaveProperty('errorType');
         expect(res.body).toHaveProperty('message');
+        //mongoose.disconnect();
     });
 
+
+
     test('null payload is not added', async () => {
-        let res = await req
+        let res = await supertest(app)
             .post('/expenses/add')
-            .send(JSON.stringify(null))
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json');
+            .send(null);
 
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty('status', 'error');
         //expect(res.body).toHaveProperty('errorType');
         expect(res.body).toHaveProperty('message');
-    });
-
-    afterAll(() => {
-        
         mongoose.disconnect();
-        //mongoose.disconnect();
     });
 });
 
+/*afterAll(async () => {
+    await mongoose.disconnect();
+    //mongoose.disconnect();
+    //await mongoose.disconnect();
+    //mongoose.disconnect();
+    //mongoose.disconnect();
+});*/

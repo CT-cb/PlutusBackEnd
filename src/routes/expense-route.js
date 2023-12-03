@@ -15,9 +15,12 @@ router.use((req, res, next) => {
 router.delete("/delete", async (req,res,next)=>{
     endpoint += "/delete";
     try{
+        console.log("Getting the query!!!");
+        console.log(req.query);
         if (req.query.expenseIds == undefined || req.query.expenseIds == null){
             throw new PlutusErrors.PlutusMissingRequestParamsError(endpoint);
         }
+
 
         let email = req.query.email;
         let expenseIds = req.query.expenseIds.split(",");
@@ -27,7 +30,7 @@ router.delete("/delete", async (req,res,next)=>{
                 email: email,
                 expenseId: expenseId
             });
-            console.log(result);
+            
         })
         
         /*let results = await ExpenseModel.where("email").equals(email).where("expenseId").equals(expenseId);
@@ -48,12 +51,16 @@ router.delete("/delete", async (req,res,next)=>{
 
 router.post("/add", async (req, res, next) => {
     endpoint += "/add";
+    console.log("We are in the add route...");
     try {
         console.log(req.body.length);
+        console.log(req.body);
+        console.log("before error");
         if (!ExpenseHelpers.hasCorrectAttributes(req.body)) {
             throw new PlutusErrors.PlutusBadJsonRequestError(endpoint);
         }
 
+        console.log("here");
         let email = req.body.email;
         let amount = req.body.amount;
         let method = req.body.method;
@@ -77,8 +84,10 @@ router.post("/add", async (req, res, next) => {
         if (req.body.type) {
             expense.type = req.body.type;
         }
+        console.log("Saving???");
         expense.save();
 
+        console.log("SENDING RESPONSE NOW!!!!!!!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!\n!!!!!!!!!!\n!!!!!!!!!!");
         res.status(200);
         res.json({
             "status": "expense_add_success",
@@ -90,77 +99,6 @@ router.post("/add", async (req, res, next) => {
     }
 });
 
-router.post("/add_multiple",async(req,res,next)=>{
-    try{
-        throw new Error("This endpoint is disabled.");
-        let expensesToAdd = [];
-        let successfulExpensesIds = [];
-        let expensesThatFailed = [];
-
-        if (req.body.length == undefined){
-            expensesToAdd.push(req.body); // just one expense was given - the JSON isn't an array
-        } else {
-            for (let i=0;i<req.body.length;i++){
-                expensesToAdd.push(req.body[i]);
-            }
-        }
-
-        expensesToAdd.forEach((expenseToAdd)=>{
-            try{
-                if (!ExpenseHelpers.hasCorrectAttributes(expense)) {
-                    throw new PlutusErrors.PlutusBadJsonRequestError(endpoint);
-                }
-
-                let email = req.body.email;
-                let amount = req.body.amount;
-                let method = req.body.method;
-                let expenseDate = req.body.expenseDate;
-                let type = req.body.type;
-                //let payee = req.body.payee;
-                let currency = req.body.currency;
-
-                let expense = new ExpenseModel({
-                    email: email,
-                    amount: amount,
-                    currency: currency,
-                    method: method,
-                    expenseDate: expenseDate,
-                });
-
-                if (req.body.payee) {
-                    expense.payee = req.body.payee;
-                }
-
-                if (req.body.type) {
-                    expense.type = req.body.type;
-                }
-                expense.save();
-                successfulExpensesIds.push(expense.expenseId);
-            } catch (err) {
-                expensesThatFailed.push(expenseToAdd);
-            }
-        });
-
-        let status = "expenses_add"
-
-        if (successfulExpensesIds.length == expensesToAdd.length){
-            status+="_all_success";
-        } else if (expensesThatFailed.length == expensesToAdd.length){
-            status+="_all_failure";
-        } else {
-            status+="_some_success_some_failure";
-        }
-
-        res.status(200);
-        res.json({
-            "status": status,
-            "ids":successfulExpensesIds,
-            "failures":expensesThatFailed
-        });
-    } catch (err){
-        next(err);
-    }
-})
 /**
  * {
  *  
@@ -182,12 +120,7 @@ router.get("/all", async (req, res, next) => {
         let email = req.query.email;
 
         let results = await ExpenseModel.where("email").equals(email);
-        if (results == undefined || results == null) {
-            throw new Error("placeholder error");
-        }
-
-        console.log(results);
-        console.log(results[0]);
+        
         res.status(200);
         res.json(results);
     } catch (err) {
@@ -199,8 +132,8 @@ router.get("/bydaterange", async (req, res, next) => {
     endpoint += "/bydaterange";
     try {
 
-        GlobalHelpers.fixStartDate(req.query);
-        GlobalHelpers.fixEndDate(req.query);
+        GlobalHelpers.fixStartDateDefaultMinDate(req.query);
+        GlobalHelpers.fixEndDateDefaultMaxDate(req.query);
 
         if (!GlobalHelpers.hasParams(
             req.query,
@@ -224,9 +157,9 @@ router.get("/bydaterange", async (req, res, next) => {
             .where("expenseDate").gte(startDate.toISOString()).lte(endDate.toISOString());
 
 
-        if (results == undefined || results == null) {
+        /*if (results == undefined || results == null) {
             throw new Error("placeholder error");
-        }
+        }*/
 
         res.status(200);
         res.json(results);
@@ -255,12 +188,6 @@ router.get("/bytype", async (req, res, next) => {
             types = types.slice(0, 10);
         }
 
-        types.forEach((type) => {
-            if (!typeof type === 'string' && !type instanceof String) {
-                type == "nullString";
-            }
-        });
-
         let results = [];
         for (let i = 0; i < types.length; i++) {
             let type = types[i];
@@ -285,8 +212,8 @@ router.get("/bytype_daterange", async (req, res, next) => {
 
     try {
 
-        GlobalHelpers.fixStartDate(req.query);
-        GlobalHelpers.fixEndDate(req.query);
+        GlobalHelpers.fixStartDateDefaultMinDate(req.query);
+        GlobalHelpers.fixEndDateDefaultMaxDate(req.query);
 
         if (!GlobalHelpers.hasParams(
             req.query,
@@ -306,12 +233,6 @@ router.get("/bytype_daterange", async (req, res, next) => {
             console.log("Can only have 10 types max");
             types = types.slice(0, 10);
         }
-
-        types.forEach((type) => {
-            if (!typeof type === 'string' && !type instanceof String) {
-                type == "nullString";
-            }
-        });
 
         console.log(types);
         console.log(startDate);
@@ -370,8 +291,8 @@ router.get("/byamount_daterange", async (req, res, next) => {
 
     try {
         GlobalHelpers.fixAmountBounds(req.query);
-        GlobalHelpers.fixStartDate(req.query);
-        GlobalHelpers.fixEndDate(req.query);
+        GlobalHelpers.fixStartDateDefaultMinDate(req.query);
+        GlobalHelpers.fixEndDateDefaultMaxDate(req.query);
 
         if (!GlobalHelpers.hasParams(
             req.query,
