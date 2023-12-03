@@ -80,7 +80,7 @@ router.get("/all", async (req, res, next) => {
         let email = req.query.email;
 
         let results = await LimitModel.where("email").equals(email);
-        if (results == undefined || results == null) {
+        if (results.length === 0) {
             throw new Error("placeholder error");
         }
 
