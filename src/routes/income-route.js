@@ -105,7 +105,7 @@ router.get("/all", async (req, res, next) => {
         let results = await IncomeModel.where("email").equals(email);
 
         if (results.length === 0) {
-            res.status(400).json({ error: 'No incomes found for the provided email' });
+            res.status(404).json({ error: 'No incomes found for the provided email' });
             return;
         }
 
@@ -190,13 +190,19 @@ router.get("/bytype", async (req, res, next) => {
         let results = [];
         for (let i = 0; i < types.length; i++) {
             let type = types[i];
+
             let query_results = await IncomeModel
                 .where("email").equals(email)
                 .where("type").equals(type);
-
+        
             query_results.forEach((result) => {
                 results.push(result);
             });
+        }
+
+        if (results.length === 0) {
+            res.status(404).json({ error: 'No incomes found for the provided email or type' });
+            return;
         }
 
         res.status(200);
