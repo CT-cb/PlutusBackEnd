@@ -26,24 +26,6 @@ const hasCorrectAttributes = function (obj) {
     return true;
 }
 
-function cleanBody(obj){
-    if (obj == null)
-        return;
-
-    if (obj.startDate == undefined){
-        obj.startDate = GlobalHelpers.MIN_DATE;
-    } else {
-        obj.startDate = cleanStartDate(obj.startDate);
-    }
-
-    if (obj.endDate == undefined){
-        obj.endDate = GlobalHelpers.MAX_DATE;
-    } else {
-        obj.endDate = cleanEndDate(obj.endDate);
-    }
-}
-
-
 
 module.exports = { 
     hasCorrectAttributes

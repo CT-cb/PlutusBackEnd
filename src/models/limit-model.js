@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const uuid = require('uuid'); // use v4
+const GlobalHelpers = require('../helpers/global-helpers');
 
 const LimitSchema = new mongoose.Schema({
     limitId: {
@@ -12,12 +13,18 @@ const LimitSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        immutable: true // think about it: why would a limit ever need to switch to another user?
+        immutable: true, // think about it: why would a limit ever need to switch to another user?
+        validate:{
+            validator: function(email) {
+                return GlobalHelpers.isValidEmail(email);
+            },
+            message: bad => `${bad} is not a valid email!`
+        }
     },
     startDate: {
         type: Date,
         default: Date.now(),
-        required: false
+        required: true
     },
     endDate: {
         type: Date,
@@ -52,7 +59,7 @@ const LimitSchema = new mongoose.Schema({
     }
 });
 
-LimitSchema.static.ReplaceUuid = function (oldLimit) {
+/*LimitSchema.static.ReplaceUuid = function (oldLimit) {
     let newSchema = new LimitSchema(
         email = oldLimit.email,
         startDate = oldLimit.startDate,
@@ -65,7 +72,7 @@ LimitSchema.static.ReplaceUuid = function (oldLimit) {
     )
 
     return newSchema;
-}
+}*/
 const LimitModel = mongoose.model('limits', LimitSchema);
 
 module.exports = LimitModel;

@@ -24,6 +24,10 @@ beforeAll(() => {
 
 describe("test hasLoginKeys() function",()=>{
 
+    test("null obj returns false",()=>{
+        expect(AuthHelpers.hasLoginKeys(null)).toBe(false);
+    });
+
     test("return true for goodObj",()=>{
         let a = AuthHelpers.hasLoginKeys(goodObj);
         expect(a).toBe(true);

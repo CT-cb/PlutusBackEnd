@@ -1,7 +1,7 @@
 /**
  * Unit tests for expense-helpers.js functions
  */
-
+require('jest');
 const ExpenseHelpers = require('../expense-helpers');
 
 describe('tests for hasCorrectAttributes',()=>{
@@ -10,6 +10,7 @@ describe('tests for hasCorrectAttributes',()=>{
         "method":"credit_card",
         "amount":19.99,
         "expenseDate":Date.now(),
+        "currency":"usd",
         "payee":{
             "name":"example payee",
             "description":"A service that provides examples for unit tests.",
@@ -28,5 +29,19 @@ describe('tests for hasCorrectAttributes',()=>{
         }
     }
 
-    
+    test('null obj returns false',()=>{
+        expect(ExpenseHelpers.hasCorrectAttributes(null)).toBe(false);
+    });
+
+    test("if obj isn't an object, return false",()=>{
+        expect(ExpenseHelpers.hasCorrectAttributes(35)).toBe(false);
+    });
+
+    test("if an attrib is missing, return false",()=>{
+        expect(ExpenseHelpers.hasCorrectAttributes(incorrectObj1)).toBe(false);
+    });
+
+    test("if all attribs are present, returns true",()=>{
+        expect(ExpenseHelpers.hasCorrectAttributes(correctObj)).toBe(true);
+    });
 });

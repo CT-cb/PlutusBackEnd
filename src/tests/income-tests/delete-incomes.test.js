@@ -19,9 +19,7 @@ describe('/delete tests', () => {
         await mongoose.connection.useDb("incomes");
     });
     
-    /*afterEach(async () => {
-        await mongoose.disconnect();
-    });*/
+    
     let correctEmail = "planwithplutus@gmail.com";
     let incorrectEmail = "thisemaildoesntexist@problem.bomb";
 

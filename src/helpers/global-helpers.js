@@ -24,10 +24,6 @@ const hasParams = function(obj,params){
         return false;
     }
 
-    if (obj.length < 1){
-        return false;
-    }
-
     for (let i = 0; i<params.length;i++){
         let param = params[i];
         if (obj[param] == undefined || obj[param] == null){
@@ -135,9 +131,13 @@ function fixAmountBounds(obj){
         obj.amountUpperBound = Number.MAX_VALUE;
     }
 
+    if (obj.amountUpperBound < 0)
+        obj.amountUpperBound = 0;
+
 }
 module.exports = {
     hasParams, 
+    isValidEmail,
     fixEndDateDefaultMaxDate, 
     fixStartDateDefaultMinDate,
     fixDateDefaultToPresent,

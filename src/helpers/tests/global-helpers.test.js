@@ -43,6 +43,10 @@ describe('tests for hasParams(list) function', () => {
         expect(a).toBe(false);
     });
 
+    test('an empty obj returns false',()=>{
+        expect(GlobalHelpers.hasParams([],exampleParams)).toBe(false);
+    });
+
     test('passing a string into params returns false', () => {
         let a = GlobalHelpers.hasParams(correctObject, "email");
         expect(a).toBe(false);
@@ -464,6 +468,23 @@ describe('tests for fixEndDateDefaultDateMinDate', () => {
 
 });
 
+describe('tests for isValidEmail',()=>{
+    let validEmail = "planwithplutus@gmail.com";
+    let invalidEmail = "planwithplutus";
+
+    test('invalid email returns false',()=>{
+        expect(GlobalHelpers.isValidEmail(invalidEmail)).toBe(false);
+    });
+
+    test('null email returns false',()=>{
+        expect(GlobalHelpers.isValidEmail(null)).toBe(false);
+    });
+
+    test('valid email returns true',()=>{
+        expect(GlobalHelpers.isValidEmail(validEmail)).toBe(true);
+    });
+})
+
 describe('tests for fixAmountBounds', () => {
 
     let objWithLowerBoundUndefined = {
@@ -475,7 +496,11 @@ describe('tests for fixAmountBounds', () => {
         amountUpperBound: 100
     };
 
-    let objWithUppeBoundUndefined = {
+    let objWithUpperBoundNegative = {
+        amountLowerBound: 10,
+        amountUpperBound: -254023
+    }
+    let objWithUpperBoundUndefined = {
         amountLowerBound: 10
     };
     let objWithLowerBoundNegative = {
@@ -483,5 +508,27 @@ describe('tests for fixAmountBounds', () => {
         amountUpperBound: 15
     };
 
+    test('missing lowerBound sets the lowerBound to 0',()=>{
+        GlobalHelpers.fixAmountBounds(objWithLowerBoundUndefined);
 
+        expect(objWithLowerBoundUndefined.amountLowerBound).toBe(0);
+    });
+
+    test('negative lowerBound gets set to 0',()=>{
+        GlobalHelpers.fixAmountBounds(objWithLowerBoundNegative);
+
+        expect(objWithLowerBoundNegative.amountLowerBound).toBe(0);
+    });
+
+    test('negaive upperBound gets set to 0',()=>{
+        GlobalHelpers.fixAmountBounds(objWithUpperBoundNegative);
+
+        expect(objWithUpperBoundNegative.amountUpperBound).toBe(0);
+    });
+
+    test('undefined upperBound gets set to Number.MAX_VALUE',()=>{
+        GlobalHelpers.fixAmountBounds(objWithUpperBoundUndefined);
+
+        expect(objWithUpperBoundUndefined.amountUpperBound).toBe(Number.MAX_VALUE);
+    })
 });

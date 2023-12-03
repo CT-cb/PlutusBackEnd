@@ -19,19 +19,4 @@ function hasLoginKeys(obj){
     return ( !!obj.email && !!obj.password);
 }
 
-/**
- * 
- * @param {Object} obj 
- * @returns 
- */
-function hasCreateAccountKeys(obj){
-    if (obj == null)
-        return false;
-
-    return (
-        !!obj.email &&
-        !!obj.password
-    );
-}
-
 module.exports = {hasLoginKeys};

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const uuid = require('uuid'); // use v4
 const PayeeSchema = require("./payee-schema");
+const GlobalHelpers = require('../helpers/global-helpers');
 const ExpenseSchema = new mongoose.Schema({
     expenseId: {
         type: String,
@@ -11,7 +12,13 @@ const ExpenseSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        validate:{
+            validator: function(email) {
+                return GlobalHelpers.isValidEmail(email);
+            },
+            message: bad => `${bad} is not a valid email!`
+        }
     },
     amount: {
         type: Number,
@@ -48,7 +55,7 @@ const ExpenseSchema = new mongoose.Schema({
     }
 });
 
-ExpenseSchema.static.ReplaceUuid = function (oldExpense) {
+/*ExpenseSchema.static.ReplaceUuid = function (oldExpense) {
     let newSchema = new ExpenseSchema(
         email = oldExpense.email,
         amount = oldExpense.amount,
@@ -60,7 +67,7 @@ ExpenseSchema.static.ReplaceUuid = function (oldExpense) {
     )
 
     return newSchema;
-}
+}*/
 
 const ExpenseModel = mongoose.model('expenses', ExpenseSchema);
 

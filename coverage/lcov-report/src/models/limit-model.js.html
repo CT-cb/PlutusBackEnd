@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/10</span>
+                <span class='fraction'>8/10</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/3</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/10</span>
+                <span class='fraction'>8/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -133,7 +133,15 @@
 <a name='L68'></a><a href='#L68'>68</a>
 <a name='L69'></a><a href='#L69'>69</a>
 <a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -147,6 +155,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -187,8 +201,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -199,12 +211,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const mongoose = require('mongoose');
 const uuid = require('uuid'); // use v4
+const GlobalHelpers = require('../helpers/global-helpers');
 &nbsp;
 const LimitSchema = new mongoose.Schema({
     limitId: {
@@ -217,12 +232,18 @@ const LimitSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        immutable: true // think about it: why would a limit ever need to switch to another user?
+        immutable: true, // think about it: why would a limit ever need to switch to another user?
+        validate:{
+            validator: function(email) {
+                return GlobalHelpers.isValidEmail(email);
+            },
+            message: <span class="fstat-no" title="function not covered" >ba</span>d =&gt; <span class="cstat-no" title="statement not covered" >`${bad} is not a valid email!`</span>
+        }
     },
     startDate: {
         type: Date,
         default: Date.now(),
-        required: false
+        required: true
     },
     endDate: {
         type: Date,
@@ -257,8 +278,8 @@ const LimitSchema = new mongoose.Schema({
     }
 });
 &nbsp;
-LimitSchema.static.ReplaceUuid = <span class="fstat-no" title="function not covered" >fu</span>nction (oldLimit) {
-    let newSchema = <span class="cstat-no" title="statement not covered" >new LimitSchema(</span>
+/*LimitSchema.static.ReplaceUuid = function (oldLimit) {
+    let newSchema = new LimitSchema(
         email = oldLimit.email,
         startDate = oldLimit.startDate,
         endDate = oldLimit.endDate,
@@ -269,8 +290,8 @@ LimitSchema.static.ReplaceUuid = <span class="fstat-no" title="function not cove
         limitId = oldLimit.limitId
     )
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return newSchema;</span>
-}
+    return newSchema;
+}*/
 const LimitModel = mongoose.model('limits', LimitSchema);
 &nbsp;
 module.exports = LimitModel;</pre></td></tr></table></pre>
@@ -280,7 +301,7 @@ module.exports = LimitModel;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-12-03T05:59:08.717Z
+                at 2023-12-03T18:55:26.662Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

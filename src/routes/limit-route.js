@@ -16,20 +16,17 @@ router.use((req, res, next) => {
 router.post("/add",async (req,res,next)=>{
     endpoint += "/add";
     try {
+        GlobalHelpers.fixDateDefaultToPresent(req.body);
+        GlobalHelpers.fixEndDateDefaultMaxDate(req.body);
+
         if (!LimitHelpers.hasCorrectAttributes(req.body)) {
             throw new PlutusErrors.PlutusBadJsonRequestError(endpoint);
         }
-        let limitId = req.body.limitId;
+        
         let email = req.body.email;
-        let startDate = Date.now();
-        if (req.body.startDate){
-            startDate = new Date(req.body.startDate);
-        }
 
-        let endDate = new Date("3000-01-01");
-        if (req.body.endDate){
-            endDate = new Date(req.body.startDate);
-        }
+        let startDate = req.body.startDate;
+        let endDate = req.body.startDate;
 
         let timeDivision = req.body.timeDivision;
         let maxLimit = req.body.maxLimit;
@@ -48,11 +45,7 @@ router.post("/add",async (req,res,next)=>{
             currency: currency,
         });
 
-        if (req.body.startDate) {
-            limit.startDate = req.body.startDate;
-        }
-
-        await limit.save();
+        limit.save();
 
         res.status(200);
         res.json({
@@ -80,9 +73,6 @@ router.get("/all", async (req, res, next) => {
         let email = req.query.email;
 
         let results = await LimitModel.where("email").equals(email);
-        if (results == undefined || results == null) {
-            throw new Error("placeholder error");
-        }
 
         res.status(200);
         res.json(results);
@@ -106,7 +96,6 @@ router.delete("/delete", async (req,res,next)=>{
                 email: email,
                 limitId: limitId
             });
-            console.log(result);
         })
         // let result = await LimitModel.deleteOne({
         //     email: email,
