@@ -10,16 +10,21 @@ const ExpenseModel = require('../../models/expense-model');
 //let connection = connectToMongoDb();
 //const req = supertest(app);
 
+beforeAll(async () => {
+    await connectToMongoDb();
+    
+    await new Promise((r) => setTimeout(r, 2000));
+});
 
+afterAll(async()=>{
+    await mongoose.disconnect();
 
+    await new Promise((r) => setTimeout(r, 2000));
+})
 let idToDelete = "0";
 
 describe('/delete tests', () => {
-    beforeAll(async () => {
-        await connectToMongoDb();
-        
-        await mongoose.connection.useDb("expenses");
-    });
+    
     
     /*afterEach(async () => {
         await mongoose.disconnect();
@@ -40,7 +45,8 @@ describe('/delete tests', () => {
         console.log(res.body);
 
         expect(res.statusCode).toBe(200);
-        mongoose.disconnect();
+        
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test('request w/o ids returns an error', async () => {
@@ -55,6 +61,8 @@ describe('/delete tests', () => {
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty("status");
         expect(res.body.status).toBe("error");
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
 });

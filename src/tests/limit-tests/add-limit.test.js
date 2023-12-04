@@ -10,13 +10,17 @@ const LimitModel = require('../../models/limit-model.js');
 //let connection = connectToMongoDb();
 //const req = supertest(app);
 
-/*beforeAll(() => {
-    mongoose.connection.useDb("limits");
-});*/
+beforeAll(async () => {
+    await connectToMongoDb();
 
-afterAll(()=>{
-    mongoose.disconnect();
-})
+    await new Promise((r) => setTimeout(r, 2000));
+});
+
+afterAll(async ()=>{
+    await mongoose.disconnect();
+
+    await new Promise((r) => setTimeout(r, 2000));
+});
 
 describe('/add tests', () => {
 
@@ -75,6 +79,8 @@ describe('/add tests', () => {
         expect(res.statusCode).toBe(200);
         
         //mongoose.disconnect();
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test('correct obj w/o currency is added correctly', async () => {
@@ -94,6 +100,8 @@ describe('/add tests', () => {
         expect(res.statusCode).toBe(200);
         //mongoose.connection.close();
         //mongoose.disconnect();
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test('incorrect obj is not added', async () => {
@@ -106,6 +114,8 @@ describe('/add tests', () => {
         expect(res.body).toHaveProperty('errorType');
         expect(res.body).toHaveProperty('message');
         //mongoose.disconnect();
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
 
@@ -120,7 +130,7 @@ describe('/add tests', () => {
         //expect(res.body).toHaveProperty('errorType');
         expect(res.body).toHaveProperty('message');
 
-        mongoose.disconnect();
+        await new Promise((r) => setTimeout(r, 2000));
     });
 });
 

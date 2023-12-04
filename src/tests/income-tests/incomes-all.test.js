@@ -9,12 +9,16 @@ const IncomeModel = require('../../models/income-model');
 
 let connection = connectToMongoDb();
 
-beforeAll(async () => {
-    await mongoose.connection.useDb("incomes");
+beforeEach(async () => {
+    await connectToMongoDb();
+
+    await new Promise((r) => setTimeout(r, 2000));
 });
 
 afterAll(async()=>{
     await mongoose.disconnect();
+
+    await new Promise((r) => setTimeout(r, 2000));
 });
 
 describe('returns all incomes data for a specific email from database', () => {
@@ -34,6 +38,7 @@ describe('returns all incomes data for a specific email from database', () => {
             expect(response.body[0].email).toBe(testEmail);
         }
         
+        await new Promise((r) => setTimeout(r, 2000));
     });
   
     /*test('should handle invalid email', async () => {
@@ -60,6 +65,8 @@ describe('returns all incomes data for a specific email from database', () => {
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty('status', 'error');
         expect(res.body).toHaveProperty('message');
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 });
   

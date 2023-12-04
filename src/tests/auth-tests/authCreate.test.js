@@ -2,6 +2,7 @@ require('jest');
 
 const mongoose = require('mongoose');
 const supertest = require('supertest');
+const { connectToMongo } = require('../../connections/mongodb-connect-collin');
 const app = require('../../app').app;
 
 let correctEmail = `newemail${new Date().getTime()}@plutus.com`;
@@ -21,8 +22,15 @@ let correctObj = {
   password: password
 };
 
+beforeAll(async()=>{
+  await connectToMongo();
+
+  await new Promise((r) => setTimeout(r, 2000));
+})
 afterAll(async()=>{
   await mongoose.disconnect();
+
+  await new Promise((r) => setTimeout(r, 2000));
 })
 
 test("create account post did not have proper json email", async () => {
@@ -32,6 +40,8 @@ test("create account post did not have proper json email", async () => {
 
     expect(res.statusCode).toBe(400);
     expect(res.body).toHaveProperty("status","error");
+
+    await new Promise((r) => setTimeout(r, 2000));
 });
 
 test("create account post did not have proper password", async () => {
@@ -41,6 +51,8 @@ test("create account post did not have proper password", async () => {
 
   expect(res.statusCode).toBe(400);
   expect(res.body).toHaveProperty("status","error");
+
+  await new Promise((r) => setTimeout(r, 2000));
 });
 
 test("request w/ username and passowrd works",async()=>{
@@ -49,4 +61,6 @@ test("request w/ username and passowrd works",async()=>{
   .send(correctObj);
 
   expect(res.statusCode).toBe(200);
+
+  await new Promise((r) => setTimeout(r, 2000));
 });

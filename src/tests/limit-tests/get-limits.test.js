@@ -10,12 +10,10 @@ const connectToMongoDb = require("../../connections/mongodb-connect-collin").con
 //const req = supertest(app);
 
 beforeAll(async () => {
-    
-    //await connectToMongoDb();
-    mongoose.connection.useDb("limits");
+    await connectToMongoDb();
 });
 
-afterAll(async () => {
+afterAll(async ()=>{
     await mongoose.disconnect();
 });
 

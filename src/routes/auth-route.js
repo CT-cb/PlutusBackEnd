@@ -70,8 +70,8 @@ router.delete("/delete", async (req, res, next) => {
             throw new PlutusErrors.PlutusPasswordMismatchDbError(endpoint);
         }
 
-        console.log(user_doc);
-        console.log(user_doc[0]);
+        
+        
 
         await UserModel.deleteOne({ email: email });
 
@@ -106,8 +106,7 @@ router.put("/update", async (req, res, next) => {
         }
 
         let doc = user_doc[0];
- 
-        doc.email = email;
+        
         doc.password = password;
     
         if (req.body.firstName){
@@ -118,7 +117,7 @@ router.put("/update", async (req, res, next) => {
             doc.lastName = req.body.lastName;
         }
 
-        doc.save(); 
+        await doc.save(); 
 
         res.status(200);
         res.json({

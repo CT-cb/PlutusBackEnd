@@ -17,6 +17,8 @@ let connection = connectToMongoDb();
 beforeAll(async () => {
     await connectToMongoDb();
     await mongoose.connection.useDb("incomes");
+
+    await new Promise((r) => setTimeout(r, 2000));
 });
 
 
@@ -56,6 +58,8 @@ describe('/add tests', () => {
             console.log(res.body);
         expect(res.statusCode).toBe(200);
         expect(res.body).toHaveProperty('status', 'income_add_success');
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     //Test that the correct object with no source gets added to the database
@@ -81,6 +85,8 @@ describe('/add tests', () => {
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty('status', 'error');
         expect(res.body).toHaveProperty('message');
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     //Test that a null income doesn't get added
@@ -94,13 +100,17 @@ describe('/add tests', () => {
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty('status', 'error');
         expect(res.body).toHaveProperty('message');
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
 
 });
 
 // disconnecting from the database
-afterAll(() => {
-    mongoose.disconnect();
+afterAll(async () => {
+    await mongoose.disconnect();
+
+    await new Promise((r) => setTimeout(r, 2000));
 });
 

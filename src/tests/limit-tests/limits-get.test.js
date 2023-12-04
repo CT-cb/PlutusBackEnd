@@ -12,7 +12,15 @@ const { v4: uuidv4 } = require('uuid');
 let connection = connectToMongoDb();
 
 beforeAll(async () => {
-  await mongoose.connection.useDb("limits");
+  await connectToMongoDb();
+
+  await new Promise((r) => setTimeout(r, 2000));
+});
+
+afterAll(async ()=>{
+  await mongoose.disconnect();
+
+  await new Promise((r) => setTimeout(r, 2000));
 });
 
 describe('limits/all tests', () => {
@@ -27,6 +35,8 @@ describe('limits/all tests', () => {
 
     // Assertions
     expect(response.status).toBe(200);
+
+    await new Promise((r) => setTimeout(r, 2000));
   });
 
   test('should handle missing parameters', async () => {
@@ -36,9 +46,7 @@ describe('limits/all tests', () => {
 
     // Assertions
     expect(response.status).toBe(400);
-  });
-});
 
-afterAll(() => {
-  mongoose.connection.close();
+    await new Promise((r) => setTimeout(r, 2000));
+  });
 });

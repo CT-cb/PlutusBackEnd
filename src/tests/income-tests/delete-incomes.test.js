@@ -8,16 +8,21 @@ const connectToMongoDb = require("../../connections/mongodb-connect-collin").con
 //let connection = connectToMongoDb();
 //const req = supertest(app);
 
+beforeEach(async () => {
+    await connectToMongoDb();
+    
+    await new Promise((r) => setTimeout(r, 2000));
+});
 
+afterAll(async()=>{
+    await mongoose.disconnect();
 
+    await new Promise((r) => setTimeout(r, 2000));
+})
 let idToDelete = "0";
 
 describe('/delete tests', () => {
-    beforeAll(async () => {
-        await connectToMongoDb();
-        
-        await mongoose.connection.useDb("incomes");
-    });
+    
     
     
     let correctEmail = "planwithplutus@gmail.com";
@@ -33,10 +38,9 @@ describe('/delete tests', () => {
                 email: correctEmail,
                 incomeIds: dummyIdsToDelete
             });
-        console.log(res.body);
 
         expect(res.statusCode).toBe(200);
-
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test('request w/o ids returns an error', async () => {
@@ -47,11 +51,10 @@ describe('/delete tests', () => {
                 email: incorrectEmail
             });
 
-        console.log(res.body);
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty("status");
         expect(res.body.status).toBe("error");
-        mongoose.disconnect();
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
 });

@@ -2,6 +2,9 @@ const { default: mongoose } = require('mongoose');
 const Connector = require('./mongodb-connect-collin');
 require('jest');
 
+beforeAll(async()=>{
+    await Connector.connectToMongo();
+});
 
 describe('test the connection function', ()=>{
 

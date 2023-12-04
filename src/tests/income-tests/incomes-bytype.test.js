@@ -10,8 +10,9 @@ const IncomeModel = require('../../models/income-model');
 let connection = connectToMongoDb();
 
 const req = request(app);
-beforeAll(() => {
-    mongoose.connection.useDb("incomes");
+beforeAll(async () => {
+    await connectToMongoDb();
+    await new Promise((r) => setTimeout(r, 2000));
 });
 
 describe('incomes/bytype tests', () => {
@@ -30,6 +31,8 @@ describe('incomes/bytype tests', () => {
     
         // Assertions
         expect(response.status).toBe(200);
+
+        await new Promise((r) => setTimeout(r, 2000));
       });
 
     test('should handle missing parameters', async () => {
@@ -39,6 +42,8 @@ describe('incomes/bytype tests', () => {
     
         // Assertions
         expect(response.status).toBe(400);
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     /*test('should handle invalid email', async () => {
@@ -56,6 +61,8 @@ describe('incomes/bytype tests', () => {
 })
 
 
-afterAll(() => {
-    mongoose.connection.close();
+afterAll(async() => {
+    await mongoose.disconnect();
+
+    await new Promise((r) => setTimeout(r, 2000));
 })

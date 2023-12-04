@@ -2,6 +2,7 @@ require('jest');
 const supertest = require('supertest');
 const app = require('../../app').app;
 const mongoose = require('mongoose');
+const connectToMongo = require('../../connections/mongodb-connect-collin').connectToMongo;
 let realEmail = "planwithplutus@gmail.com";
 let correctEmail = `newemail${new Date().getTime()}@plutus.com`;
 let incorrectEmail = "newEmail@something";
@@ -31,6 +32,9 @@ let correctObj = {
   password: password
 };
 
+beforeAll(async()=>{
+  await connectToMongo();
+})
 afterAll(async()=>{
   await mongoose.disconnect();
 });
@@ -42,6 +46,8 @@ test("request w/o email returns error", async () => {
 
   expect(res.statusCode).toBe(400);
   expect(res.body).toHaveProperty("status","error");
+
+  await new Promise((r) => setTimeout(r, 2000));
 });
 
 test("request w/o password returns error", async () => {
@@ -51,6 +57,8 @@ test("request w/o password returns error", async () => {
 
   expect(res.statusCode).toBe(400);
   expect(res.body).toHaveProperty("status","error");
+
+  await new Promise((r) => setTimeout(r, 2000));
 });
 
 test("request with bad email returns error", async () => {
@@ -60,6 +68,8 @@ test("request with bad email returns error", async () => {
 
   expect(res.statusCode).toBe(400);
   expect(res.body).toHaveProperty("status","error");
+
+  await new Promise((r) => setTimeout(r, 2000));
 });
 
 test("request w/o correct email but wrong pwd returns error", async () => {
@@ -69,6 +79,8 @@ test("request w/o correct email but wrong pwd returns error", async () => {
 
   expect(res.statusCode).toBe(400);
   expect(res.body).toHaveProperty("status","error");
+
+  await new Promise((r) => setTimeout(r, 2000));
 });
 
 test("request w correct credentials gets the job done", async () => {
@@ -77,4 +89,6 @@ test("request w correct credentials gets the job done", async () => {
   .send(correctObj);
 
   expect(res.statusCode).toBe(200);
+
+  await new Promise((r) => setTimeout(r, 2000));
 });

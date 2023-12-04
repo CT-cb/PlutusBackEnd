@@ -11,10 +11,17 @@ const { v4: uuidv4 } = require('uuid');
 
 let connection = connectToMongoDb();
 
-beforeAll(() => {
-    mongoose.connection.useDb("limits");
+beforeAll(async () => {
+    await connectToMongoDb();
+
+    await new Promise((r) => setTimeout(r, 2000));
 });
 
+afterAll(async ()=>{
+    await mongoose.disconnect();
+
+    await new Promise((r) => setTimeout(r, 2000));
+});
 describe('limits/delete tests', () => {
     test('should delete limits for a given email and limitIds', async () => {
         const testEmail = 'test2@example.com';
@@ -52,6 +59,8 @@ describe('limits/delete tests', () => {
 
       expect(consoleLogSpy).toHaveBeenCalledWith(expect.any(Object));
       consoleLogSpy.mockRestore();
+
+      await new Promise((r) => setTimeout(r, 2000));
     });
   
     test('should handle missing parameters', async () => {
@@ -61,9 +70,7 @@ describe('limits/delete tests', () => {
   
       // Assertions
         expect(response.status).toBe(400);
-    });
-});
 
-afterAll(() => {
-    mongoose.connection.close();
+        await new Promise((r) => setTimeout(r, 2000));
+    });
 });

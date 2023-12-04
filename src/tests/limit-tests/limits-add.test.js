@@ -9,12 +9,17 @@ const LimitModel = require('../../models/limit-model');
 
 const { v4: uuidv4 } = require('uuid');
 
-beforeAll(async () => {
+beforeEach(async () => {
   await connectToMongoDb();
-  await mongoose.connection.useDb("limits");
+
+  await new Promise((r) => setTimeout(r, 2000));
 });
 
+afterAll(async ()=>{
+  await mongoose.disconnect();
 
+  await new Promise((r) => setTimeout(r, 2000));
+});
 
 describe('limits/add tests', () => {
   test('should add a limit given a email and maxLimit', async () => {
@@ -33,6 +38,8 @@ describe('limits/add tests', () => {
     // Assertions
     expect(response.status).toBe(200);
     expect(response.body.status).toBe('limit_add_success');
+
+    await new Promise((r) => setTimeout(r, 2000));
   });
 
   test('should handle missing parameters', async () => {
@@ -42,5 +49,7 @@ describe('limits/add tests', () => {
 
     // Assertions
     expect(response.status).toBe(400);
+
+    await new Promise((r) => setTimeout(r, 2000));
   });
 });

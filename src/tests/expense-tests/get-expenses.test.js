@@ -10,14 +10,16 @@ const ExpenseModel = require('../../models/expense-model');
 //let connection = connectToMongoDb();
 //const req = supertest(app);
 
-/*beforeEach(async () => {
+beforeEach(async () => {
     
     await connectToMongoDb();
-    mongoose.connection.useDb("expenses");
-});*/
+    await new Promise((r) => setTimeout(r, 2000));
+});
 
 afterAll(async () => {
     await mongoose.disconnect();
+
+    await new Promise((r) => setTimeout(r, 2000));
 });
 
 
@@ -39,7 +41,6 @@ let correctLowerBound = 10;
 let correctUpperBound = 35;
 let excessiveUpperBound = 999999999999;
 
-
 describe('/all tests', () => {
 
     let correctRequest = {
@@ -55,6 +56,8 @@ describe('/all tests', () => {
 
 
         expect(res.statusCode).toBe(200);
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test('incorrect email returns an empty body', async () => {
@@ -66,6 +69,8 @@ describe('/all tests', () => {
 
         expect(res.statusCode).toBe(200);
         expect(res.body).toHaveLength(0);
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test('request w/o email param returns an error', async () => {
@@ -74,12 +79,12 @@ describe('/all tests', () => {
 
         expect(res.body).toHaveProperty("status");
         expect(res.body.status).toBe("error");
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 });
 
 describe('/bydaterange tests', () => {
-
-    
 
         test('incorrectStartDate returns all expenses from beginning of time to endDate', async () => {
             const res = await supertest(app)
@@ -91,6 +96,8 @@ describe('/bydaterange tests', () => {
             
             console.log(res.body);
             expect(res.statusCode).toBe(200);
+
+            await new Promise((r) => setTimeout(r, 2000));
         });
 
     test('incorrectEndDate returns all expenses from startDate onward', async()=>{
@@ -100,6 +107,10 @@ describe('/bydaterange tests', () => {
                 email: correctEmail,
                 endDate: incorrectEndDate
             })
+
+        expect(res.statusCode).toBe(200);
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test('request w/o email returns error', async () => {
@@ -111,6 +122,8 @@ describe('/bydaterange tests', () => {
             });
 
         expect(res.statusCode).toBe(400);
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test('request with just an email returns everything', async () => {
@@ -121,6 +134,8 @@ describe('/bydaterange tests', () => {
             });
 
         expect(res.statusCode).toBe(200);
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     /*test('request with no email throws an error', async () => {
@@ -147,6 +162,8 @@ describe("/bytype tests",()=>{
         });
 
         expect(res.statusCode).toBe(200);
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test("correct email and two types returns 200",async()=>{
@@ -158,6 +175,8 @@ describe("/bytype tests",()=>{
         });
 
         expect(res.statusCode).toBe(200);
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test("missing email returns an error",async()=>{
@@ -170,6 +189,8 @@ describe("/bytype tests",()=>{
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty("status");
         expect(res.body.status).toBe("error");
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test("Giving more than 10 types causes the types to be cut down to only the first ten",async()=>{
@@ -181,6 +202,8 @@ describe("/bytype tests",()=>{
         });
 
         expect(res.statusCode).toBe(200);
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test("a non-string type in the types list doesn't affect us",async()=>{
@@ -192,6 +215,8 @@ describe("/bytype tests",()=>{
         });
 
         expect(res.statusCode).toBe(200);
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 });
 
@@ -207,6 +232,8 @@ describe("/bytype_daterange tests",()=>{
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty("status");
         expect(res.body.status).toBe("error");
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test('correct email and types yield a good result',async()=>{
@@ -218,6 +245,8 @@ describe("/bytype_daterange tests",()=>{
         });
 
         expect(res.statusCode).toBe(200);
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test('correct email w/ more than 10 types causes only first ten types to get processed',async()=>{
@@ -227,6 +256,10 @@ describe("/bytype_daterange tests",()=>{
             email:correctEmail,
             types: moreThanTenTypes
         });
+
+        expect(res.statusCode).toBe(200);
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 });
 
@@ -242,6 +275,8 @@ describe("/byamount tests",()=>{
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty("status");
         expect(res.body.status).toBe("error");
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test("request w/ a correct email returns something",async ()=>{
@@ -254,6 +289,8 @@ describe("/byamount tests",()=>{
         });
 
         expect(res.statusCode).toBe(200);
+
+        await new Promise((r) => setTimeout(r, 2000));
     })
 });
 
@@ -269,6 +306,8 @@ describe("byamount_daterange tests",()=>{
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty("status");
         expect(res.body.status).toBe("error");
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 
     test("an email with any combination of bounds or dates gives us a 200 status code",async()=>{
@@ -282,5 +321,7 @@ describe("byamount_daterange tests",()=>{
 
         console.log(res.body);
         expect(res.statusCode).toBe(200);
+
+        await new Promise((r) => setTimeout(r, 2000));
     });
 });
