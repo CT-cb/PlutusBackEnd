@@ -3,7 +3,7 @@ const supertest = require('supertest');
 const app = require('../../app').app;
 const mongoose = require('mongoose');
 const connectToMongo = require('../../connections/mongodb-connect-collin').connectToMongo;
-let realEmail = "planwithplutus@gmail.com";
+let realEmail = "plutustestname@plutus.com";
 let correctEmail = `newemail${new Date().getTime()}@plutus.com`;
 let incorrectEmail = "newEmail@something";
 let password = "abc123";
@@ -34,9 +34,17 @@ let correctObj = {
 
 beforeAll(async()=>{
   await connectToMongo();
-})
+  let res = supertest(app)
+  .post('/auth/create')
+  .send(correctObj);
+
+  await new Promise((r) => setTimeout(r, 2000));
+});
+
 afterAll(async()=>{
   await mongoose.disconnect();
+
+  await new Promise((r) => setTimeout(r, 2000));
 });
 
 test("request w/o email returns error", async () => {

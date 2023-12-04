@@ -36,7 +36,7 @@ afterAll(async()=>{
 test("create account post did not have proper json email", async () => {
     let res = await supertest(app)
     .post("/auth/create")
-    .query(noEmail);
+    .send(noEmail);
 
     expect(res.statusCode).toBe(400);
     expect(res.body).toHaveProperty("status","error");
