@@ -4,12 +4,12 @@
   "description": "",
   "main": "./src/server.js",
   "scripts": {
-    "test:unit_all": "jest --testPathPattern=./src --detectOpenHandles",
-    "test:unit_helpers": "jest --testPathPattern=./src/helpers/test --detectOpenHandles",
-    "test:unit_auth": "jest --testPathPattern=./src/tests/auth-tests --detectOpenHandles --coverage=true --coverageDirectory=./src/tests/auth-tests/coverage",
-    "test:unit_expense": "jest --testPathPattern=./src/tests/expense-tests --detectOpenHandles --coverage=true --coverageDirectory=./src/tests/expense-tests/coverage",
-    "test:unit_incomes": "jest --testPathPattern=./src/tests/income-tests --detectOpenHandles --coverage=true --coverageDirectory=./src/tests/income-tests/coverage",
-    "test:unit_limit": "jest --testPathPattern=./src/tests/limit-tests --detectOpenHandles --coverage=true --coverageDirectory=./src/tests/limit-tests/coverage"
+    "test:unit_all": "jest --testPathPattern=./src --coverage",
+    "test:unit_helpers": "jest --testPathPattern=./src/helpers/test --coverage",
+    "test:unit_auth": "jest --testPathPattern=./src/tests/auth-tests --coverage",
+    "test:unit_expense": "jest --testPathPattern=./src/tests/expense-tests --coverage=true",
+    "test:unit_incomes": "jest --testPathPattern=./src/tests/income-tests --coverage=true",
+    "test:unit_limit": "jest --testPathPattern=./src/tests/limit-tests --coverage=true"
   },
   "keywords": [],
   "author": "",
